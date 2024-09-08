@@ -1,6 +1,7 @@
 import express from 'express';
 import {connectDB} from "./config/db.js";
 import Product from "./models/product.model.js";
+import mongoose from "mongoose";
 
 
 const app = express();
@@ -25,6 +26,23 @@ app.delete('/api/products/:id', async (req, res) => {
         res.status(200).json({success: true, message: "Product deleted successfully"})
     } catch (err) {
         res.status(404).json({success: false, message: "Product not found"})
+    }
+})
+
+app.put('/api/products/:id', async (req, res) => {
+    const {id} = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({success: false, message: "Id invalid"})
+    }
+
+    const product = req.body
+
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(id, product, {new: true});
+        res.status(200).json({success: true, message: "Product updated successfully", data: updatedProduct})
+    } catch (err) {
+        res.status(500).json({success: false, message: err.message})
     }
 })
 
