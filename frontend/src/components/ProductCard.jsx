@@ -28,17 +28,16 @@ export const ProductCard = (data) => {
     const [updatedProduct, setUpdatedProduct] = useState(
         data.product
     )
-    const {deleteProduct} = useProductStore()
-    const {updateProduct} = useProductStore()
+    const {deleteProduct, updateProduct} = useProductStore()
     const textColor = useColorModeValue("grey.800", "grey.200")
     const bg = useColorModeValue("grey.800", "grey.200")
     const {isOpen, onOpen, onClose} = useDisclosure()
-
+    const toast = useToast()
     // console.log(product.product.name)
 
     async function handleDeleteProduct(id) {
         const {success, message} = await deleteProduct(id);
-        const toast = useToast()
+
         if (!success) {
             toast({
                 title: "Error",
@@ -57,7 +56,6 @@ export const ProductCard = (data) => {
     }
     async function handleUpdateProduct(id, updatedProduct) {
         const {success, message} = await updateProduct(id, updatedProduct);
-        const toast = useToast()
         if (!success) {
             toast({
                 title: "Error",
@@ -110,24 +108,24 @@ export const ProductCard = (data) => {
                             <Input
                                 placeholder={'Name'}
                                 name={'name'}
-                                value={updatedProduct.name}
+                                defaultValue={updatedProduct.name}
 
                             ></Input>
                             <Input
                                 placeholder={'Price'}
                                 name={'price'}
                                 type={'number'}
-                                value={updatedProduct.price}
+                                defaultValue={updatedProduct.price}
                             ></Input>
                             <Input
                                 placeholder={'Image URl'}
                                 name={'image'}
-                                value={updatedProduct.image}
+                                defaultValue={updatedProduct.image}
                             ></Input>
                         </VStack>
                     </ModalBody>
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(data.product.id, updatedProduct) }>
+                        <Button colorScheme='blue' mr={3} onClick={() => handleUpdateProduct(data.product._id, updatedProduct) }>
                             Update
                         </Button>
                         <Button variant='ghost' onClick={onClose}>Close</Button>
