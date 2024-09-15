@@ -1,11 +1,12 @@
 import {Button, Container, Flex, HStack, Text, useColorMode} from "@chakra-ui/react";
-import { PlusSquareIcon } from "@chakra-ui/icons";
+import {PlusSquareIcon, UnlockIcon} from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import {IoMoon} from "react-icons/io5";
 import {LuSun} from "react-icons/lu";
 import {useProductStore} from "../store/product.js";
 import treeMenuData from "./TreeMenu/data.js";
 import TreeMenu from "./TreeMenu/TreeMenu.jsx";
+import Login from "./Login.jsx";
 
 const NavBar = (props) => {
 
@@ -62,15 +63,31 @@ const NavBar = (props) => {
 
             </TreeMenu>
         {/*    Right buttons */}
-            <HStack spacing={2} alignItems={'center'} >
-                <Link to={"/create"}>
-                    <Button>
-                        <PlusSquareIcon  fontSize={20}/>
+            <HStack spacing={3} alignItems={'center'}>
+                <Link to="/create">
+                    <Button
+                        aria-label="Create new item"
+                        title="Create new item" // Tooltip for accessibility
+                    >
+                        <PlusSquareIcon fontSize={20} />
                     </Button>
                 </Link>
-                    <Button onClick={toggleColorMode}>
-                        {colorMode === 'light' ? <IoMoon/> : <LuSun />}
+
+                <Button
+                    aria-label={`Toggle ${colorMode === 'light' ? 'dark' : 'light'} mode`}
+                    onClick={toggleColorMode}
+                >
+                    {colorMode === 'light' ? <IoMoon /> : <LuSun />}
+                </Button>
+
+                <Link to="/login">
+                    <Button
+                        aria-label="User login"
+                        title="User login" // Tooltip for accessibility
+                    >
+                        <UnlockIcon fontSize={20} />
                     </Button>
+                </Link>
             </HStack>
         </Flex>
     </Container>
