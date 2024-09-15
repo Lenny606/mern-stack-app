@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://mern-stack-app-sjj5.onrender.com/"
+        target: "http://localhost:5000"
       }
     }
   }
