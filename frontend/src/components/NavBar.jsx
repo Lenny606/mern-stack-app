@@ -6,7 +6,6 @@ import {LuSun} from "react-icons/lu";
 import {useProductStore} from "../store/product.js";
 import treeMenuData from "./TreeMenu/data.js";
 import TreeMenu from "./TreeMenu/TreeMenu.jsx";
-import Login from "./Login.jsx";
 
 const NavBar = (props) => {
 
