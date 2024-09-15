@@ -10,6 +10,7 @@ import treeMenuData from "./components/TreeMenu/data.js";
 import {AboutPage} from "./pages/About/AboutPage.jsx";
 import {ContactPage} from "./pages/About/ContactPage.jsx";
 import {StorePage} from "./pages/About/StorePage.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -28,6 +29,7 @@ function App() {
                 <Route path={"/create"} element={<CreatePage/>} />
                 <Route path={"/login"} element={<LoginPage/>} />
             </Routes>
+            <Footer />
 
         </Box>
 
