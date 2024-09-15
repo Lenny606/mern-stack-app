@@ -7,6 +7,9 @@ import { CategoryPage } from "./pages/CategoryPage.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import treeMenuData from "./components/TreeMenu/data.js";
+import {AboutPage} from "./pages/About/AboutPage.jsx";
+import {ContactPage} from "./pages/About/ContactPage.jsx";
+import {StorePage} from "./pages/About/StorePage.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -19,6 +22,9 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<HomePage/>} />
                 <Route path={"/category"} element={<CategoryPage/>} />
+                <Route path={"/about"} element={<AboutPage/>} />
+                <Route path={"/contact"} element={<ContactPage/>} />
+                <Route path={"/store"} element={<StorePage/>} />
                 <Route path={"/create"} element={<CreatePage/>} />
                 <Route path={"/login"} element={<LoginPage/>} />
             </Routes>
