@@ -83,7 +83,8 @@ export const ProductCard = (data) => {
             _hover={{transform: 'translateY(-5px)', shadow: "x1"}}
             bg={bg}
         >
-            <Image src={data.product.image} alt={data.product.name} h={48} w={'full'} objectFit={'cover'}>
+            {/*TODO refactor for list of images*/}
+            <Image src={data.product.images[0]} alt={data.product.name} h={48} w={'full'} objectFit={'cover'}>
             </Image>
             <Box p={4}>
                 <Heading as={'h3'} size={'md'} mb={2}>
@@ -120,7 +121,8 @@ export const ProductCard = (data) => {
                             <Input
                                 placeholder={'Image URl'}
                                 name={'image'}
-                                defaultValue={updatedProduct.image}
+                                // TODO refactor for list of images
+                                defaultValue={updatedProduct.images[0]}
                             ></Input>
                         </VStack>
                     </ModalBody>
