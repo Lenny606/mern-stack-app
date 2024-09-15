@@ -16,16 +16,25 @@ export const HomePage = () => {
 
     return (
         <Container maxW="container.xl" py={12}>
-            {/* Decorative image for screen readers */}
-            <Box boxSize="sm">
+
+            <Box boxSize=""
+                 display="flex"
+                 justifyContent="center"
+                 alignItems="center"
+                 >
+
                 <Image
-                    src="https://bit.ly/dan-abramov"
-                    alt="Dan Abramov"
-                    aria-hidden="true" /* Decorative image, not essential */
+                    src="/hp-main-banner.webp"
+                    alt="Main banner"
+                    aria-hidden="true"
+                    boxSize={1200}
+                    height={600}
+                    objectFit="fit"
+
                 />
             </Box>
 
-            <VStack spacing={9}>
+            <VStack spacing={9} pt={20}>
                 {/* Heading for screen readers */}
                 <Text
                     as="h1"
