@@ -3,8 +3,10 @@ import {Box, Button, useColorModeValue} from "@chakra-ui/react";
 import {Route, Routes} from "react-router-dom";
 import { HomePage } from "./pages/HomePage.jsx";
 import { CreatePage } from "./pages/CreatePage.jsx";
+import { CategoryPage } from "./pages/CategoryPage.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import NavBar from "./components/NavBar.jsx";
+import treeMenuData from "./components/TreeMenu/data.js";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -13,9 +15,10 @@ function App() {
 
         <Box minH={"100vh"}  bg={useColorModeValue("grey.100", 'gray.900')}>
             {/*   NAVBAR */}
-            <NavBar />
+            <NavBar treeMenuData={treeMenuData}/>
             <Routes>
                 <Route path={"/"} element={<HomePage/>} />
+                <Route path={"/category"} element={<CategoryPage/>} />
                 <Route path={"/create"} element={<CreatePage/>} />
                 <Route path={"/login"} element={<LoginPage/>} />
             </Routes>
