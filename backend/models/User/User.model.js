@@ -92,5 +92,15 @@ userSchema.statics.countUsers = async function () {
     return await this.countDocuments({});
 };
 
+//add methods
+userSchema.methods.getProfile = function () {
+    return `${this.name} (${this.email})`;
+};
+
+// instance or document method
+userSchema.methods.checkPassword = function (password) {
+    return password === this.password ? true : false;
+};
+
 const User = mongoose.model("User", userSchema);
 export default User;
