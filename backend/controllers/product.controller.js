@@ -1,4 +1,4 @@
-import Product from "../models/product.model.js";
+import Product from "../models/Product/product.model.js";
 import mongoose from "mongoose";
 
 export const getProducts = async (req, res) => {
@@ -40,7 +40,7 @@ export const updateProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     const product = req.body
-    if (!product.name || !product.price || !product.image) {
+    if (!product.name || !product.price || !product.images) {
         return res.status(400).json({success: false, message: "Some fields ware not provided"})
     }
 
