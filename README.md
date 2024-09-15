@@ -52,6 +52,10 @@ The frontend of this application was set up using Vite. Here are the steps that 
 - @chakra-ui/icons: Icon set for Chakra UI.
 - react-icons: Popular icon library for React.
 - zustand: Light-weight state management library.
+- passport
+- passport-local
+- express-session
+- express-flash
 
 ## Project Structure
 
