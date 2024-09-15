@@ -1,4 +1,4 @@
-import {Container, VStack, Text} from "@chakra-ui/react";
+import {Container, VStack, Text, Image, Box} from "@chakra-ui/react";
 import {Link} from "react-router-dom"
 import {SimpleGrid} from '@chakra-ui/react'
 import {useProductStore} from "../store/product.js";
@@ -15,47 +15,73 @@ export const HomePage = () => {
 
 
     return (
-        <Container
-            maxW={"container.xl"}
-            py={12}
-        >
+        <Container maxW="container.xl" py={12}>
+            {/* Decorative image for screen readers */}
+            <Box boxSize="sm">
+                <Image
+                    src="https://bit.ly/dan-abramov"
+                    alt="Dan Abramov"
+                    aria-hidden="true" /* Decorative image, not essential */
+                />
+            </Box>
+
             <VStack spacing={9}>
-                <Text fontSize='30' fontWeight='bold'
-                      bgGradient={"linear(to-r, cyan.400, blue.500)"}
-                      bgClip={'text'}
-                      textAlign={'center'}>
+                {/* Heading for screen readers */}
+                <Text
+                    as="h1"
+                    fontSize="30"
+                    fontWeight="bold"
+                    bgGradient="linear(to-r, cyan.400, blue.500)"
+                    bgClip="text"
+                    textAlign="center"
+                    aria-label="Current Products"
+                >
                     Current Products
                 </Text>
 
-                <SimpleGrid columns={{
-                    base: 1,
-                    md: 2,
-                    lg: 3,
-                }}
-                            spacing={10}
-                            w={"full"}>
-                    {
-                        products.map(product => {
-                            return <ProductCard key={product._id} product={product}/>
-                        })
-                    }
+                {/* Grid of products */}
+                <SimpleGrid
+                    columns={{
+                        base: 1,
+                        md: 2,
+                        lg: 3,
+                    }}
+                    spacing={10}
+                    w="full"
+                    role="list" /* Accessible grid list */
+                >
+                    {products.map((product) => (
+                        <ProductCard
+                            key={product._id}
+                            product={product}
+                            role="listitem" /* Each card acts as a list item */
+                        />
+                    ))}
                 </SimpleGrid>
 
-                {products.length == 0 ?
-                    <Text fontSize='30' fontWeight='bold'
-                          bgGradient={"linear(to-r, cyan.400, blue.500)"}
-                          bgClip={'text'}
-                          textAlign={'center'}>
-                        No products found
-                        <Link to={'/create'}>
-                            <Text as={'span'} fontSize='30' fontWeight='bold' _hover={{textDecoration: 'underline'}}>
+                {/* No products found */}
+                {products.length === 0 ? (
+                    <Text
+                        fontSize="30"
+                        fontWeight="bold"
+                        bgGradient="linear(to-r, cyan.400, blue.500)"
+                        bgClip="text"
+                        textAlign="center"
+                        role="alert" /* Alert for when no products are found */
+                    >
+                        No products found.{' '}
+                        <Link to="/create" aria-label="Create a product">
+                            <Text
+                                as="span"
+                                fontSize="30"
+                                fontWeight="bold"
+                                _hover={{ textDecoration: 'underline' }}
+                            >
                                 Create Product
                             </Text>
                         </Link>
                     </Text>
-
-                    : null
-                }
+                ) : null}
             </VStack>
         </Container>
     )
