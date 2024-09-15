@@ -101,6 +101,27 @@ userSchema.methods.getProfile = function () {
 userSchema.methods.checkPassword = function (password) {
     return password === this.password ? true : false;
 };
+// query builder
+userSchema.query.paginate = function ({ page, limit }) {
+    // some code
+    const skip = limit * (page - 1);
+    return this.skip(skip).limit(limit);
+};
+
+// post hook for email after registration
+userSchema.post("save", async function (doc, next) {
+    // send email logic
+    // if succeeded
+    try {
+        if (doc.createdAt.getTime() === doc.updatedAt.getTime()) {
+            // send email
+        }
+        return next();
+    } catch (err) {
+        // if failed
+        return next(new Error("Failed to send email! " + err.message));
+    }
+});
 
 const User = mongoose.model("User", userSchema);
 export default User;

@@ -73,5 +73,12 @@ const productSchema = new mongoose.Schema({
     timestamps: true
 });
 
+productSchema.query.paginate = function ({ page, limit }) {
+    // some code
+    const skip = limit * (page - 1);
+    return this.skip(skip).limit(limit);
+};
+
+
 const Product = mongoose.model('Product', productSchema);
 export default Product;
