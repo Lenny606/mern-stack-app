@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 import {IoMoon} from "react-icons/io5";
 import {LuSun} from "react-icons/lu";
 import {useProductStore} from "../store/product.js";
+import treeMenuData from "./TreeMenu/data.js";
+import TreeMenu from "./TreeMenu/TreeMenu.jsx";
 
-const NavBar = () => {
+const NavBar = (props) => {
 
+    const treeMenuData = props.treeMenuData;
+    // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
+    console.log(treeMenuData)
     const {colorMode, toggleColorMode} = useColorMode();
     const { products } = useProductStore();
 
@@ -29,7 +34,34 @@ const NavBar = () => {
             >
                 <Link to={'/'}>Product store </Link>
             </Text>
-        {/*    HOrizontal buttons */}
+
+        {/*    Middle buttons */}
+        {/*    <HStack spacing={treeMenuData.length} alignItems={'center'} >*/}
+        {/*        {treeMenuData.map(function(item) {*/}
+        {/*            console.log(item)*/}
+        {/*            return (*/}
+        {/*                <Link key={item.id} to={item.path}>*/}
+        {/*                    {item.label}*/}
+        {/*                </Link>*/}
+        {/*            /!*    check for nested items*!/*/}
+        {/*            */}
+        {/*                hasChildren && displayCurrentChild[item.id]*/}
+        {/*                    ? <TreeMenuList list={item.children}/>*/}
+        {/*                    : null*/}
+
+        {/*            */}
+        {/*            )})*/}
+        {/*        }*/}
+
+        {/*        /!*<Button onClick={toggleColorMode}>*!/*/}
+        {/*        /!*    {colorMode === 'light' ? <IoMoon/> : <LuSun />}*!/*/}
+        {/*        /!*</Button>*!/*/}
+        {/*    </HStack>*/}
+
+            <TreeMenu menu={treeMenuData}>
+
+            </TreeMenu>
+        {/*    Right buttons */}
             <HStack spacing={2} alignItems={'center'} >
                 <Link to={"/create"}>
                     <Button>

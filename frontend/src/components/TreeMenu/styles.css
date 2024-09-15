@@ -1,0 +1,21 @@
+.tree-menu-container {
+    /*margin-top: 3rem;*/
+    /*min-height: 100vh;*/
+    /*width: 350px;*/
+    /*background-color: gold;*/
+}
+
+.menu-item-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    /*cursor: pointer;*/
+}
+
+.menu-list-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 0 auto;
+}
