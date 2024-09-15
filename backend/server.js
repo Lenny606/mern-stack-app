@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import {connectDB} from "./config/db.js";
 import productRoute from "./routes/product.route.js";
 import path from "path";
+import userRoute from "./routes/user.route.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -12,6 +13,7 @@ const __dirname = path.resolve();
 app.use(express.json()) //MW allows to accept json data in body
 
 app.use("/api/products", productRoute)
+app.use("/api/users", userRoute)
 
 if (process.env.NODE_ENV === 'production') {
     //make dist folder (builded front)  as static assets
