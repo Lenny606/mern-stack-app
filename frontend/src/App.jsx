@@ -3,7 +3,7 @@ import {Box, Button, useColorModeValue} from "@chakra-ui/react";
 import {Route, Routes} from "react-router-dom";
 import { HomePage } from "./pages/HomePage.jsx";
 import { CreatePage } from "./pages/CreatePage.jsx";
-import { CategoryPage } from "./pages/CategoryPage.jsx";
+import { CategoryPage } from "./pages/Category/CategoryPage.jsx";
 import { LoginPage } from "./pages/LoginPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import treeMenuData from "./components/TreeMenu/data.js";

@@ -8,7 +8,7 @@ export default function TreeMenuList({list = [], isChild = false}) {
             {
                 list && list.length
                     ? list.map((listItem) => {
-                        return <TreeMenuItem item={listItem} isChild={isChild}/>
+                        return <TreeMenuItem key={listItem.id} item={listItem} isChild={isChild}/>
                     })
                     : null
             }

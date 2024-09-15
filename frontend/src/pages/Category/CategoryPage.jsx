@@ -1,9 +1,9 @@
 import {Container, VStack, Text} from "@chakra-ui/react";
 import {Link} from "react-router-dom"
 import {SimpleGrid} from '@chakra-ui/react'
-import {useProductStore} from "../store/product.js";
+import {useProductStore} from "../../store/product.js";
 import React, {useEffect} from "react";
-import {ProductCard} from "../components/ProductCard.jsx";
+import {ProductCard} from "../../components/ProductCard.jsx";
 
 export const CategoryPage = () => {
 
