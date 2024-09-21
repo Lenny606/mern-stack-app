@@ -1,10 +1,11 @@
 import User from "../models/test/user.model.js";
 import mongoose from "mongoose";
+import UserTest from "../models/User/User.model.js";
 
 export const getUsers = async (req, res) => {
 
     try {
-        const products = await User.find({}) //finds all products
+        const products = await UserTest.find({}) //finds all products
         res.status(200).json({success: true, data: products})
     } catch (err) {
         res.status(500).json({success: false, message: err.message})
@@ -44,7 +45,7 @@ export const createUser = async (req, res) => {
         return res.status(400).json({success: false, message: "Some fields ware not provided"})
     }
 
-    const newUser = new User(user)
+    const newUser = new UserTest(user)
     newUser.isRegistered = true;
 
     try {

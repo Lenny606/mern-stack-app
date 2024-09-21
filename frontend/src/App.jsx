@@ -11,6 +11,7 @@ import {AboutPage} from "./pages/About/AboutPage.jsx";
 import {ContactPage} from "./pages/About/ContactPage.jsx";
 import {StorePage} from "./pages/About/StorePage.jsx";
 import Footer from "./components/Footer.jsx";
+import RegistrationFormTest from "./components/Form/RegistrationFormTest.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -27,7 +28,8 @@ function App() {
                 <Route path={"/contact"} element={<ContactPage/>} />
                 <Route path={"/store"} element={<StorePage/>} />
                 <Route path={"/create"} element={<CreatePage/>} />
-                <Route path={"/login"} element={<LoginPage/>} />
+                {/*<Route path={"/login"} element={<LoginPage/>} />*/}
+                <Route path={"/login"} element={<RegistrationFormTest/>} />
             </Routes>
             <Footer />
 
