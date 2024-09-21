@@ -15,7 +15,7 @@ export const HomePage = () => {
 
 
     return (
-        <Container maxW="container.xl" py={12}>
+        <Container bgColor="#276cf930" maxW="container.xl" py={12} >
 
             <Box boxSize=""
                  display="flex"

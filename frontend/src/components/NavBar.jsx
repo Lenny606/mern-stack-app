@@ -15,7 +15,7 @@ const NavBar = (props) => {
     const {colorMode, toggleColorMode} = useColorMode();
     const { products } = useProductStore();
 
-    return <Container maxW={"1140px"} px={4}>
+    return <Container maxW={"container.xl"} px={12} bgColor={"#276cf930"}>
         <Flex h={16} alignItems={"center"} justifyContent={'space-between'}
 
               flexDir={{
