@@ -87,6 +87,14 @@ const NavBar = (props) => {
                         <UnlockIcon fontSize={20} />
                     </Button>
                 </Link>
+                <Link to="/register">
+                    <Button
+                        aria-label="User register"
+                        title="User register" // Tooltip for accessibility
+                    >
+                        <UnlockIcon fontSize={20} />
+                    </Button>
+                </Link>
             </HStack>
         </Flex>
     </Container>

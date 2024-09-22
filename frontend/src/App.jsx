@@ -28,8 +28,8 @@ function App() {
                 <Route path={"/contact"} element={<ContactPage/>} />
                 <Route path={"/store"} element={<StorePage/>} />
                 <Route path={"/create"} element={<CreatePage/>} />
-                {/*<Route path={"/login"} element={<LoginPage/>} />*/}
-                <Route path={"/login"} element={<RegistrationFormTest/>} />
+                <Route path={"/login"} element={<LoginPage/>} />
+                <Route path={"/register"} element={<RegistrationFormTest/>} />
             </Routes>
             <Footer />
 

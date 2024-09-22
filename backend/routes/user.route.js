@@ -3,8 +3,9 @@ import {createUser, getUsers} from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.post('/', createUser);
-router.get('/', getUsers);
+//TODO fix and edit
+router.post('/xx', createUser);
+router.get('/x', getUsers);
 // router.delete('/:id', deleteProduct)
 // router.put('/:id', updateProduct)
 // router.post('/', createProduct)

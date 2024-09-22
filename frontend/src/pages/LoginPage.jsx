@@ -6,16 +6,18 @@ import {useUserStore} from "../store/user.js";
 export const LoginPage = () => {
 
     const [user, setUser] = useState({
-        name: ""
+        email: "",
+        password: ""
     });
-    const {createUser} = useUserStore();
+    const {loginUser} = useUserStore();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const {success, message} = await createUser(user)
+        const {success, message} = await loginUser(user)
 
         if (success) {
             setUser({
-                name: ""
+                email: "",
+                password: ""
             })
         } else {
             alert(message)
@@ -30,12 +32,21 @@ export const LoginPage = () => {
                 </Heading>
                 <form onSubmit={handleSubmit}>
                     <FormControl id="name" mb="4" isRequired>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Email</FormLabel>
                         <Input
                             type="text"
-                            value={user.name}
-                            onChange={(e) => setUser({...user, name: e.target.value})}
-                            placeholder="Enter your name"
+                            value={user.email}
+                            onChange={(e) => setUser({...user, email: e.target.value})}
+                            placeholder="Enter your email"
+                        />
+                    </FormControl>
+                    <FormControl id="password" mb="4" isRequired>
+                        <FormLabel>Password</FormLabel>
+                        <Input
+                            type="password"
+                            value={user.password}
+                            onChange={(e) => setUser({...user, password: e.target.value})}
+                            placeholder="Enter your password"
                         />
                     </FormControl>
                     <Button colorScheme="teal" type="submit" width="100%">

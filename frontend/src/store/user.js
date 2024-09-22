@@ -8,7 +8,7 @@ export const useUserStore = create((set) => ({
             return {success: false, message: "Values are missing"}
         }
 
-        const res = await fetch("http://localhost:5000/api/users", {
+        const res = await fetch("api/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -16,7 +16,7 @@ export const useUserStore = create((set) => ({
             body: JSON.stringify(newUser)
         })
 
-        const data = await res.json
+        const data = await res.json()
 
         set((state) => ({
             users: [...state.users, data.data]
@@ -62,5 +62,36 @@ export const useUserStore = create((set) => ({
             users: state.users.map(user => user._id === id ? data.data : user)
         }))
         return {success: true, message: "Values are saved"}
+    },
+    registerUser: async (newUser) => {
+        if (!newUser.email ) {
+            return {success: false, message: "Email is missing"}
+        }
+        const res = await fetch("api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        })
+        const data = await res.json()
+        return {success: true, message: "User registered" , data: data}
+    },
+    loginUser: async (user) => {
+        if (!user.email ) {
+            return {success: false, message: "Email is missing"}
+        }
+        const res = await fetch("/api/auth/", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
+        console.log(data)
+        return {success: true, message: "User login successful" , data: data}
     }
 }))
