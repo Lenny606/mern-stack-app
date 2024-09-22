@@ -37,7 +37,10 @@ export default passport.use(
             if (!user) {
                 throw new Error("User not found")
             }
-            if(user.password !== password) {
+
+            const match = await user.comparePassword(password)
+
+            if(!match) {
                 throw new Error("Password mismatch")
             }
             done(null, user);  //success
