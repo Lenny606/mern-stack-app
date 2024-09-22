@@ -2,8 +2,10 @@ import {useState} from "react";
 import {Box, Button, Container, Heading, Input, useColorModeValue, useToast, VStack} from "@chakra-ui/react";
 import {ChakraProvider, FormControl, FormLabel} from '@chakra-ui/react';
 import {useUserStore} from "../store/user.js";
+import {redirect, useNavigate} from "react-router-dom";
 
 export const LoginPage = () => {
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         email: "",
@@ -19,6 +21,7 @@ export const LoginPage = () => {
                 email: "",
                 password: ""
             })
+            navigate('/')
         } else {
             alert(message)
         }
