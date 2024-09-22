@@ -5,6 +5,7 @@ import UserTest from "../models/User/User.model.js";
 export const getUsers = async (req, res) => {
 
     try {
+        //TODO remove test model in the end
         const products = await UserTest.find({}) //finds all products
         res.status(200).json({success: true, data: products})
     } catch (err) {
@@ -40,7 +41,7 @@ export const getUsers = async (req, res) => {
 // }
 
 export const createUser = async (req, res) => {
-    const user = req.body
+    const user = req.body // deconstruct => {body} = req
     if (!user.name) {
         return res.status(400).json({success: false, message: "Some fields ware not provided"})
     }
