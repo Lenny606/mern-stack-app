@@ -89,7 +89,7 @@ const NavBar = (props) => {
                         {isLogged ? <UnlockIcon fontSize={20} /> : <LockIcon fontSize={20} />}
                     </Button>
                 </Link>
-                <Link to="/register">
+                <Link to={isLogged ? "/logout" : "/register"}>
                     <Button
                         aria-label="User register"
                         title="User register" // Tooltip for accessibility
