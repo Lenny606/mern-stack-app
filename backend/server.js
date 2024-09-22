@@ -8,8 +8,11 @@ import categoryRoute from "./routes/category.route.js";
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import mongoose from "mongoose";
+import MongoStore from 'connect-mongo';
 //import passport strategy from file
 import "./config/strategies.js";
+
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -19,14 +22,18 @@ const __dirname = path.resolve();
 app.use(express.json()) //MW allows to accept json data in body
 app.use(cookieParser('cookieParser hello world'))
 
-//////// PASSPORT
+//////// PASSPORT + set store to DTB
 app.use(session({
     secret: "test-secret",
     saveUninitialized: false,
     resave: false,
     cookie: {
         maxAge: 60 * 60 * 24
-    }
+    },
+    //saves cookies into database>
+    store: MongoStore.create({
+        mongoUrl: process.env.DTB_URL
+    })
 }))
 
 app.use(passport.initialize())
@@ -42,7 +49,7 @@ app.post("/api/auth/login", passport.authenticate('local'), (req, res) => {
 app.get("/api/auth/status", (req, res) => {
     const user = req.user;
     const session = req.session;
-    console.log(user);
+    console.log(session);
     if (!user) {
         res.status(401);
     } else {

@@ -59,6 +59,7 @@ The frontend of this application was set up using Vite. Here are the steps that 
 - express-session
 - express-flash
 - bcrypt
+- connect-mongo
 
 ## Project Structure
 
