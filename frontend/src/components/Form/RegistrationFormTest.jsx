@@ -13,8 +13,8 @@ import {
     useToast,
 } from '@chakra-ui/react';
 import {Eye, EyeOff} from 'lucide-react';
-import {useProductStore} from "../../store/product.js";
 import {useUserStore} from "../../store/user.js";
+import {useNavigate} from "react-router-dom";
 
 const RegistrationForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -25,19 +25,17 @@ const RegistrationForm = () => {
     });
 
     const toast = useToast();
+    const navigate = useNavigate();
 
 
     const {registerUser} = useUserStore();
+    const {loginUser, isLogged} = useUserStore();
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const result = await registerUser(user);
+            var result = await registerUser(user);
             if (result.success) {
-                setUser({
-                    name: "",
-                    email: "",
-                    password: ""
-                })
+
             }
         } catch (e) {
             toast({
@@ -54,9 +52,24 @@ const RegistrationForm = () => {
                 duration: 3000,
                 isClosable: true,
             });
+            const {success, message} = await loginUser(user);
+
+            if (success) {
+                setUser({
+                    name: "",
+                    email: "",
+                    password: ""
+                })
+                navigate('/')
+            } else {
+                toast({
+                    title: "Error",
+                    description: message,
+                    status: "error",
+                    isClosable: true
+                })
+            }
         }
-
-
     };
 
     return (

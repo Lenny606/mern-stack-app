@@ -1,9 +1,10 @@
 import {Button, Container, Flex, HStack, Text, useColorMode} from "@chakra-ui/react";
-import {PlusSquareIcon, UnlockIcon} from "@chakra-ui/icons";
+import {LockIcon, PlusSquareIcon, UnlockIcon} from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import {IoMoon} from "react-icons/io5";
 import {LuSun} from "react-icons/lu";
 import {useProductStore} from "../store/product.js";
+import {useUserStore} from "../store/user.js";
 import treeMenuData from "./TreeMenu/data.js";
 import TreeMenu from "./TreeMenu/TreeMenu.jsx";
 
@@ -14,6 +15,7 @@ const NavBar = (props) => {
     console.log(treeMenuData)
     const {colorMode, toggleColorMode} = useColorMode();
     const { products } = useProductStore();
+    const { isLogged } = useUserStore();
 
     return <Container maxW={"container.xl"} px={12} bgColor={"#276cf930"}>
         <Flex h={16} alignItems={"center"} justifyContent={'space-between'}
@@ -84,7 +86,7 @@ const NavBar = (props) => {
                         aria-label="User login"
                         title="User login" // Tooltip for accessibility
                     >
-                        <UnlockIcon fontSize={20} />
+                        {isLogged ? <UnlockIcon fontSize={20} /> : <LockIcon fontSize={20} />}
                     </Button>
                 </Link>
                 <Link to="/register">
@@ -92,7 +94,7 @@ const NavBar = (props) => {
                         aria-label="User register"
                         title="User register" // Tooltip for accessibility
                     >
-                        <UnlockIcon fontSize={20} />
+                        {isLogged ? <UnlockIcon fontSize={20} /> : <LockIcon fontSize={20} />}
                     </Button>
                 </Link>
             </HStack>

@@ -2,6 +2,7 @@ import {create} from "zustand";
 
 export const useUserStore = create((set) => ({
     users: [],
+    isLogged: false,
     setUsers: (users) => set({users}),
     createUser: async (newUser) => {
         if (!newUser.name ) {
@@ -91,6 +92,9 @@ export const useUserStore = create((set) => ({
         })
 
         const data = await res.json()
+        set((state) => ({
+            isLogged: true,
+        }))
         console.log(data)
         return {success: true, message: "User login successful" , data: data}
     }
