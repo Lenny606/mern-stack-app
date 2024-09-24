@@ -1,5 +1,5 @@
 import {create} from "zustand";
-
+//TODO check responses
 export const useUserStore = create((set) => ({
     users: [],
     isLogged: false,
@@ -97,5 +97,48 @@ export const useUserStore = create((set) => ({
         }))
         console.log(data)
         return {success: true, message: "User login successful" , data: data}
+    },
+    isLoggedIn: async (user) => {
+
+        const res = await fetch("/api/auth/status", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
+        console.log(data)
+        if (data.success) {
+            set((state) => ({
+                isLogged: true,
+            }))
+            console.log(data)
+            return {success: true, message: "User is logged" , data: data}
+        } else {
+            return {success: false, message: "User not logged"}
+        }
+    },
+    logout: async (user) => {
+        if (!user.email ) {
+            return {success: false, message: "Email is missing"}
+        }
+        const res = await fetch("/api/auth/logout", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
+        set((state) => ({
+            isLogged: true,
+        }))
+        console.log(data)
+        return {success: true, message: "User logout successful" , data: data}
     }
 }))
