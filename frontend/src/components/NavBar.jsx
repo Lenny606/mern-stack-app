@@ -12,7 +12,6 @@ const NavBar = (props) => {
 
     const treeMenuData = props.treeMenuData;
     // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
-    console.log(treeMenuData)
     const {colorMode, toggleColorMode} = useColorMode();
     const { products } = useProductStore();
     const { isLogged } = useUserStore();

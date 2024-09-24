@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import {Box, Button, useColorModeValue} from "@chakra-ui/react";
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes,} from "react-router-dom";
 import { HomePage } from "./pages/HomePage.jsx";
 import { CreatePage } from "./pages/CreatePage.jsx";
 import { CategoryPage } from "./pages/Category/CategoryPage.jsx";
@@ -8,13 +8,31 @@ import { LoginPage } from "./pages/LoginPage.jsx";
 import NavBar from "./components/NavBar.jsx";
 import treeMenuData from "./components/TreeMenu/data.js";
 import {AboutPage} from "./pages/About/AboutPage.jsx";
+import {AdminPage} from "./pages/Admin/AdminPage.jsx";
 import {ContactPage} from "./pages/About/ContactPage.jsx";
 import {StorePage} from "./pages/About/StorePage.jsx";
 import Footer from "./components/Footer.jsx";
 import RegistrationFormTest from "./components/Form/RegistrationFormTest.jsx";
+import {useUserStore} from "./store/user.js";
 
 function App() {
     const [count, setCount] = useState(0)
+    const {isLogged, isLoggedIn} = useUserStore()
+    const isAuthenticated = () => {
+        // This should be replaced with your actual authentication logic
+        // return localStorage.getItem('token') !== null;
+        return isLogged;
+    };
+
+    console.log(isLogged)
+
+    const ProtectedRoute = ({ children }) => {
+        if (!isAuthenticated()) {
+            // Redirect to login if not authenticated
+            return <Navigate to="/login" replace />;
+        }
+        return children;
+    };
 
     return (
 
@@ -30,6 +48,14 @@ function App() {
                 <Route path={"/create"} element={<CreatePage/>} />
                 <Route path={"/login"} element={<LoginPage/>} />
                 <Route path={"/register"} element={<RegistrationFormTest/>} />
+                <Route
+                    path="/admin"
+                    element={
+                        <ProtectedRoute>
+                            <AdminPage />
+                        </ProtectedRoute>
+                    }
+                />
             </Routes>
             <Footer />
 
