@@ -1,8 +1,6 @@
 import passport from "passport";
-// import User from "../models/test/user.model.js";
-import mongoose from "mongoose";
 import UserTest from "../models/User/UserTest.model.js";
-import {createUser} from "./user.controller.js";
+
 
 // export const loginUser = async (req, res) => {
 //     app.post("/api/auth", passport.authenticate('local'), (req, res) => {
@@ -10,7 +8,39 @@ import {createUser} from "./user.controller.js";
 //     })
 // }
 
-export const loginUser = (req, res, next) => {
+export const checkTurnstileToken = async (req, res) => {
+    const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+    const body = req.body;
+
+
+
+    const formData = new FormData();
+    formData.append('secret', process.env.TURNSTILE_SECRET_KEY);
+    formData.append('response', body.token);
+
+    try {
+        const result = await fetch(url, {
+            body: formData,
+            method: 'POST',
+        });
+
+        const outcome = await result.json();
+        if (outcome.success) {
+            return true;
+        }
+    } catch (err) {
+        console.error(err);
+    }
+    return false;
+}
+export const loginUser = async (req, res, next) => {
+
+    const validateCaptcha = await checkTurnstileToken(req, res)
+
+    if (!validateCaptcha) {
+        return res.status(500).json({ message: "Failed to validate CAPTCHA response" });
+    }
+
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             return next(err); // Passes error to Express's default error handler

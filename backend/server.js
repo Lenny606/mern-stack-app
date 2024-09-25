@@ -5,6 +5,7 @@ import productRoute from "./routes/product.route.js";
 import path from "path";
 import userRoute from "./routes/user.route.js";
 import categoryRoute from "./routes/category.route.js";
+import envRoute from "./routes/env.route.js";
 import authRoute from "./routes/authRoute.route.js";
 import passport from 'passport';
 import session from 'express-session';
@@ -53,6 +54,7 @@ app.use("/api/products", productRoute)
 app.use("/api/users", userRoute)
 app.use("/api/categories", categoryRoute)
 app.use("/api/auth", authRoute)
+app.use("/api/env", envRoute)
 
 
 if (process.env.NODE_ENV === 'production') {

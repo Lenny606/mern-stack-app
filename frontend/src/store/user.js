@@ -101,7 +101,7 @@ export const useUserStore = create((set) => ({
     isLoggedIn: async (user) => {
 
         const res = await fetch("/api/auth/status", {
-            method: "POST",
+            method: "GET",
 
             headers: {
                 "Content-Type": "application/json",
@@ -110,12 +110,12 @@ export const useUserStore = create((set) => ({
         })
 
         const data = await res.json()
-        console.log(data)
+        // console.log(data)
+        // console.log(data.success)
         if (data.success) {
             set((state) => ({
                 isLogged: true,
             }))
-            console.log(data)
             return {success: true, message: "User is logged" , data: data}
         } else {
             return {success: false, message: "User not logged"}

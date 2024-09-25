@@ -18,13 +18,18 @@ import {useUserStore} from "./store/user.js";
 function App() {
     const [count, setCount] = useState(0)
     const {isLogged, isLoggedIn} = useUserStore()
-    const isAuthenticated = () => {
+    //
+    // const userLogged = isLoggedIn()
+    // console.log(userLogged)
+    const isAuthenticated = async () => {
         // This should be replaced with your actual authentication logic
         // return localStorage.getItem('token') !== null;
-        return isLogged;
+        const userLogged = await isLoggedIn()
+        console.log(userLogged)
+        return false;
     };
 
-    console.log(isLogged)
+
 
     const ProtectedRoute = ({ children }) => {
         if (!isAuthenticated()) {

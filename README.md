@@ -60,6 +60,7 @@ The frontend of this application was set up using Vite. Here are the steps that 
 - express-flash
 - bcrypt
 - connect-mongo
+- npm i react-turnstile (cloudflare captcha)
 
 ## Project Structure
 
