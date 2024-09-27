@@ -37,9 +37,10 @@ export const loginUser = async (req, res, next) => {
 
     const validateCaptcha = await checkTurnstileToken(req, res)
 
-    if (!validateCaptcha) {
-        return res.status(500).json({ message: "Failed to validate CAPTCHA response" });
-    }
+    //TODO activate captha
+    // if (!validateCaptcha) {
+    //     return res.status(500).json({ message: "Failed to validate CAPTCHA response" });
+    // }
 
     passport.authenticate('local', (err, user, info) => {
         if (err) {
@@ -54,7 +55,11 @@ export const loginUser = async (req, res, next) => {
             if (err) {
                 return next(err); // Handle error during login
             }
-            return res.status(200).json({ message: 'Login successful', success: true, user });
+
+            //TODO hash token
+            const token = "testToken";
+
+            return res.status(200).json({ message: 'Login successful', success: true, user, token });
         });
     })(req, res, next); // Call the passport.authenticate function
 };

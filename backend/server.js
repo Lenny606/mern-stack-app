@@ -25,6 +25,7 @@ const __dirname = path.resolve();
 
 app.use(express.json()) //MW allows to accept json data in body
 app.use(cookieParser('cookieParser hello world'))
+app.disable('x-powered-by'); //disable stack detection
 
 
 // // Enable CORS for all origins

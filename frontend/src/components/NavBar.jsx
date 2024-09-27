@@ -96,6 +96,14 @@ const NavBar = (props) => {
                         {isLogged ? <UnlockIcon fontSize={20} /> : <LockIcon fontSize={20} />}
                     </Button>
                 </Link>
+                <Link to={"/admin"}>
+                    <Button
+                        aria-label="User register"
+                        title="User register" // Tooltip for accessibility
+                    >
+                        Admin
+                    </Button>
+                </Link>
             </HStack>
         </Flex>
     </Container>

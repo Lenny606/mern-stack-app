@@ -34,13 +34,13 @@ export const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const {success, message} = await loginUser(user)
-
+        const {success, message, data} = await loginUser(user)
         if (success) {
             setUser({
                 email: "",
                 password: ""
             })
+            localStorage.setItem("token", data.token)
             navigate('/')
         } else {
             alert(message)
