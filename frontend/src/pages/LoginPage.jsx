@@ -2,12 +2,14 @@ import {useEffect, useState} from "react";
 import {Box, Button, Container, Heading, Input, useColorModeValue, useToast, VStack} from "@chakra-ui/react";
 import {ChakraProvider, FormControl, FormLabel} from '@chakra-ui/react';
 import {useUserStore} from "../store/user.js";
-import {redirect, useNavigate} from "react-router-dom";
+import {redirect, useNavigate, useNavigation} from "react-router-dom";
 import Turnstile from "react-turnstile";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
     const [siteKey, setSiteKey] = useState('');
+    const navigationState = useNavigation();
+    const isSubmitting = navigationState.state === "submitting"
 
     const [user, setUser] = useState({
         email: "",
@@ -72,8 +74,8 @@ export const LoginPage = () => {
                             placeholder="Enter your password"
                         />
                     </FormControl>
-                    <Button colorScheme="teal" type="submit" width="100%">
-                        Submit
+                    <Button colorScheme="teal" type="submit" width="100%" disabled={isSubmitting}>
+                        {isSubmitting ? "Logging... " : "Login"}
                     </Button>
                     <Turnstile
                         sitekey={siteKey}
