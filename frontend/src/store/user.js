@@ -138,5 +138,8 @@ export const useUserStore = create((set) => ({
         }))
         console.log(data)
         return {success: true, message: "User logout successful" , data: data}
+    },
+    getToken: () => {
+        return localStorage.getItem("token")
     }
 }))

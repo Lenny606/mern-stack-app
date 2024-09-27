@@ -17,8 +17,8 @@ import {useUserStore} from "./store/user.js";
 
 function App() {
     const [count, setCount] = useState(0)
-    const {isLogged, isLoggedIn} = useUserStore()
-    //
+    const {isLogged, isLoggedIn, getToken} = useUserStore()
+
     // const userLogged = isLoggedIn()
     // console.log(userLogged)
     const isAuthenticated = async () => {
