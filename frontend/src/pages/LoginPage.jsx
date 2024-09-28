@@ -23,7 +23,7 @@ export const LoginPage = () => {
         // We need an async function inside useEffect because useEffect can't directly accept async
         const fetchAndSetSiteKey = async () => {
             const key = await fetchSiteKey();  // Wait for the Promise to resolve
-            console.log(key);  // Now key contains the actual siteKey, not a Promise
+             // Now key contains the actual siteKey, not a Promise
             setSiteKey(key);   // Update the state with the siteKey
         };
 
