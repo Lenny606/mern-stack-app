@@ -32,9 +32,6 @@ export const LoginPage = () => {
     }, []); // Empty dependency array, meaning this will run only on component mount
 
 
-
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -45,6 +42,10 @@ export const LoginPage = () => {
                     password: ""
                 })
                 localStorage.setItem("token", data.token)
+                const expiration = new Date();
+                expiration.setHours(expiration.getHours() + 1)
+                localStorage.setItem("expiration", expiration.toISOString())
+
                 navigate('/')
             } else {
 

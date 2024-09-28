@@ -1,11 +1,12 @@
 import {create} from "zustand";
+import {redirect} from "react-router-dom";
 //TODO check responses
 export const useUserStore = create((set) => ({
     users: [],
     isLogged: false,
     setUsers: (users) => set({users}),
     createUser: async (newUser) => {
-        if (!newUser.name ) {
+        if (!newUser.name) {
             return {success: false, message: "Values are missing"}
         }
 
@@ -65,7 +66,7 @@ export const useUserStore = create((set) => ({
         return {success: true, message: "Values are saved"}
     },
     registerUser: async (newUser) => {
-        if (!newUser.email ) {
+        if (!newUser.email) {
             return {success: false, message: "Email is missing"}
         }
         const res = await fetch("api/auth/register", {
@@ -76,10 +77,10 @@ export const useUserStore = create((set) => ({
             body: JSON.stringify(newUser)
         })
         const data = await res.json()
-        return {success: true, message: "User registered" , data: data}
+        return {success: true, message: "User registered", data: data}
     },
     loginUser: async (user) => {
-        if (!user.email ) {
+        if (!user.email) {
             return {success: false, message: "Email is missing"}
         }
         const res = await fetch("/api/auth/", {
@@ -95,7 +96,7 @@ export const useUserStore = create((set) => ({
         set((state) => ({
             isLogged: true,
         }))
-        return {success: true, message: "User login successful" , data: data}
+        return {success: true, message: "User login successful", data: data}
     },
     isLoggedIn: async (user) => {
 
@@ -113,14 +114,13 @@ export const useUserStore = create((set) => ({
             set((state) => ({
                 isLogged: true,
             }))
-            localStorage.setItem("token", data.token)
-            return {success: true, message: "User is logged" , data: data}
+            return {success: true, message: "User is logged", data: data}
         } else {
             return {success: false, message: "User not logged"}
         }
     },
     logout: async (user) => {
-        if (!user.email ) {
+        if (!user.email) {
             return {success: false, message: "Email is missing"}
         }
         const res = await fetch("/api/auth/logout", {
@@ -137,10 +137,34 @@ export const useUserStore = create((set) => ({
             isLogged: true,
         }))
         console.log(data)
-        return {success: true, message: "User logout successful" , data: data}
+        return {success: true, message: "User logout successful", data: data}
     },
-    getToken: () => {
+    getToken: function () {
+        const expDataToken = localStorage.getItem("expiration")
+        const expDate = new Date(expDataToken)
+        const now = new Date()
+        const duration = expDate.getTime() - now.getTime()
+        if (duration < 0) {
+            return "EXPIRED"
+        }
+
         return localStorage.getItem("token")
+    },
+    getTokenExpiration: function () {
+        const expDataToken = localStorage.getItem("expiration")
+        const expDate = new Date(expDataToken)
+        const now = new Date()
+        const duration = expDate.getTime() - now.getTime()
+
+        return duration
+    },
+    checkToken: () => {
+        const token = this.getToken()
+        console.log('token')
+        if (!token) {
+            redirect("/login")
+        }
+        return token ?? null
     },
     setLogoutState: (state) => set({isLogged: state})
 }))
