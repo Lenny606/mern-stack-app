@@ -1,4 +1,5 @@
 import {create} from "zustand";
+import {useUserStore} from "./user.js";
 
 export const useProductStore = create((set) => ({
     products: [],
@@ -23,8 +24,14 @@ export const useProductStore = create((set) => ({
         }))
         return {success: true, message: "Values are saved"}
     },
-    fetchProducts: async () => {
-        const res = await fetch("api/products")
+    fetchProducts: async function() {
+        const { getToken } = useUserStore.getState();
+        const res = await fetch("api/products", {
+            headers: {
+                'Authorization': "Bearer " + getToken()
+            }
+        })
+
         const data = await res.json()
         set({
             products: data.data

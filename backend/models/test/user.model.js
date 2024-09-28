@@ -7,5 +7,5 @@ const userSchema = new mongoose.Schema({
         default: false
     }
 })
-const User = BaseModel.discriminator('User', userSchema);
-export default User;
+const UserBase = BaseModel.discriminator('UserBase', userSchema);
+export default UserBase;

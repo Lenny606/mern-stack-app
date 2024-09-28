@@ -77,6 +77,7 @@ export const ProductCard = (data) => {
     return (
         <Box
             shadow={'lg'}
+            border="1px solid #276cf930"
             rounded={'lg'}
             overflow={'hidden'}
             transition={'all 0.3s'}

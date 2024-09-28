@@ -44,6 +44,7 @@ The frontend of this application was set up using Vite. Here are the steps that 
    npm i @chakra-ui/icons
    npm i react-icons
    npm i zustand
+   npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event
 
 ## Packages Used
 
@@ -58,6 +59,8 @@ The frontend of this application was set up using Vite. Here are the steps that 
 - express-session
 - express-flash
 - bcrypt
+- connect-mongo
+- npm i react-turnstile (cloudflare captcha)
 
 ## Project Structure
 

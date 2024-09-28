@@ -1,22 +1,49 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Box, Button, Container, Heading, Input, useColorModeValue, useToast, VStack} from "@chakra-ui/react";
 import {ChakraProvider, FormControl, FormLabel} from '@chakra-ui/react';
 import {useUserStore} from "../store/user.js";
+import {redirect, useNavigate, useNavigation} from "react-router-dom";
+import Turnstile from "react-turnstile";
 
 export const LoginPage = () => {
+    const navigate = useNavigate();
+    const [siteKey, setSiteKey] = useState('');
+    const navigationState = useNavigation();
+    const isSubmitting = navigationState.state === "submitting"
 
     const [user, setUser] = useState({
-        name: ""
+        email: "",
+        password: "",
+        token: ""
     });
-    const {createUser} = useUserStore();
+
+    const {loginUser} = useUserStore();
+
+    useEffect(() => {
+        // We need an async function inside useEffect because useEffect can't directly accept async
+        const fetchAndSetSiteKey = async () => {
+            const key = await fetchSiteKey();  // Wait for the Promise to resolve
+            console.log(key);  // Now key contains the actual siteKey, not a Promise
+            setSiteKey(key);   // Update the state with the siteKey
+        };
+
+        fetchAndSetSiteKey();
+    }, []); // Empty dependency array, meaning this will run only on component mount
+
+
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const {success, message} = await createUser(user)
-
+        const {success, message, data} = await loginUser(user)
         if (success) {
             setUser({
-                name: ""
+                email: "",
+                password: ""
             })
+            localStorage.setItem("token", data.token)
+            navigate('/')
         } else {
             alert(message)
         }
@@ -30,19 +57,53 @@ export const LoginPage = () => {
                 </Heading>
                 <form onSubmit={handleSubmit}>
                     <FormControl id="name" mb="4" isRequired>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Email</FormLabel>
                         <Input
                             type="text"
-                            value={user.name}
-                            onChange={(e) => setUser({...user, name: e.target.value})}
-                            placeholder="Enter your name"
+                            value={user.email}
+                            onChange={(e) => setUser({...user, email: e.target.value})}
+                            placeholder="Enter your email"
                         />
                     </FormControl>
-                    <Button colorScheme="teal" type="submit" width="100%">
-                        Submit
+                    <FormControl id="password" mb="4" isRequired>
+                        <FormLabel>Password</FormLabel>
+                        <Input
+                            type="password"
+                            value={user.password}
+                            onChange={(e) => setUser({...user, password: e.target.value})}
+                            placeholder="Enter your password"
+                        />
+                    </FormControl>
+                    <Button colorScheme="teal" type="submit" width="100%" disabled={isSubmitting}>
+                        {isSubmitting ? "Logging... " : "Login"}
                     </Button>
+                    <Turnstile
+                        sitekey={siteKey}
+                        onVerify={(token) => setValue('token', token)}
+                    />
                 </form>
             </Box>
         </ChakraProvider>
     )
 }
+
+const fetchSiteKey = async () => {
+    try {
+        const response = await fetch('/api/env/sitekey', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data.sitekey;
+    } catch (error) {
+        console.error("Error fetching sitekey:", error.message);
+        return null;
+    }
+};

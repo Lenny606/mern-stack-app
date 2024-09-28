@@ -1,14 +1,15 @@
 import {create} from "zustand";
-
+//TODO check responses
 export const useUserStore = create((set) => ({
     users: [],
+    isLogged: false,
     setUsers: (users) => set({users}),
     createUser: async (newUser) => {
         if (!newUser.name ) {
             return {success: false, message: "Values are missing"}
         }
 
-        const res = await fetch("http://localhost:5000/api/users", {
+        const res = await fetch("api/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -16,7 +17,7 @@ export const useUserStore = create((set) => ({
             body: JSON.stringify(newUser)
         })
 
-        const data = await res.json
+        const data = await res.json()
 
         set((state) => ({
             users: [...state.users, data.data]
@@ -62,5 +63,83 @@ export const useUserStore = create((set) => ({
             users: state.users.map(user => user._id === id ? data.data : user)
         }))
         return {success: true, message: "Values are saved"}
+    },
+    registerUser: async (newUser) => {
+        if (!newUser.email ) {
+            return {success: false, message: "Email is missing"}
+        }
+        const res = await fetch("api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        })
+        const data = await res.json()
+        return {success: true, message: "User registered" , data: data}
+    },
+    loginUser: async (user) => {
+        if (!user.email ) {
+            return {success: false, message: "Email is missing"}
+        }
+        const res = await fetch("/api/auth/", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
+        set((state) => ({
+            isLogged: true,
+        }))
+        return {success: true, message: "User login successful" , data: data}
+    },
+    isLoggedIn: async (user) => {
+
+        const res = await fetch("/api/auth/status", {
+            method: "GET",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
+        if (data.success) {
+            set((state) => ({
+                isLogged: true,
+            }))
+            localStorage.setItem("token", data.token)
+            return {success: true, message: "User is logged" , data: data}
+        } else {
+            return {success: false, message: "User not logged"}
+        }
+    },
+    logout: async (user) => {
+        if (!user.email ) {
+            return {success: false, message: "Email is missing"}
+        }
+        const res = await fetch("/api/auth/logout", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user)
+        })
+
+        const data = await res.json()
+        set((state) => ({
+            isLogged: true,
+        }))
+        console.log(data)
+        return {success: true, message: "User logout successful" , data: data}
+    },
+    getToken: () => {
+        return localStorage.getItem("token")
     }
 }))

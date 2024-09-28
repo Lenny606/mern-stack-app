@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const userSchema = new mongoose.Schema({
+const userTestSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required'],
@@ -28,35 +28,6 @@ const userSchema = new mongoose.Schema({
         minlength: [8, 'Password must be at least 8 characters long'],
         select: false
     },
-    profilePic: {
-        type: String,
-        default: 'default-profile.jpg'
-    },
-    birthDate: {
-        type: Date,
-        validate: {
-            validator: function(v) {
-                return v && v.getTime() < Date.now();
-            },
-            message: 'Birth date must be in the past'
-        }
-    },
-    phoneNumber: {
-        type: String,
-        validate: {
-            validator: function(v) {
-                return /\d{10}/.test(v);
-            },
-            message: props => `${props.value} is not a valid phone number!`
-        }
-    },
-    address: {
-        street: String,
-        city: String,
-        state: String,
-        country: String,
-        zipCode: String
-    },
     accountActivated: {
         type: Boolean,
         default: false
@@ -72,42 +43,42 @@ const userSchema = new mongoose.Schema({
 });
 
 // Pre-save hook to hash password
-userSchema.pre('save', async function(next) {
+userTestSchema.pre('save', async function(next) {
     if (!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 12);
     next();
 });
 
 // Method to check if password is correct
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userTestSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 //Add the methods
-userSchema.statics.findByEmail = async function (email) {
-    return await this.findOne({email})
+userTestSchema.statics.findByEmail = async function (email) {
+    return await this.findOne({email}).select('+password')
 }
-userSchema.statics.countUsers = async function () {
+userTestSchema.statics.countUsers = async function () {
     return await this.countDocuments({});
 };
 
 //add methods
-userSchema.methods.getProfile = function () {
+userTestSchema.methods.getProfile = function () {
     return `${this.name} (${this.email})`;
 };
 
 // instance or document method
-userSchema.methods.checkPassword = function (password) {
+userTestSchema.methods.checkPassword = function (password) {
     return password === this.password ? true : false;
 };
 // query builder
-userSchema.query.paginate = function ({ page, limit }) {
+userTestSchema.query.paginate = function ({ page, limit }) {
     // some code
     const skip = limit * (page - 1);
     return this.skip(skip).limit(limit);
 };
 
 // post hook for email after registration
-userSchema.post("save", async function (doc, next) {
+userTestSchema.post("save", async function (doc, next) {
     // send email logic
     // if succeeded
     try {
@@ -121,5 +92,5 @@ userSchema.post("save", async function (doc, next) {
     }
 });
 
-const User = mongoose.model("User", userSchema);
-export default User;
+const UserTest = mongoose.model("UserTest", userTestSchema);
+export default UserTest;
