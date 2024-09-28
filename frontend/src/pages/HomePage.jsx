@@ -59,7 +59,7 @@ export const HomePage = () => {
                     w="full"
                     role="list" /* Accessible grid list */
                 >
-                    {products.map((product) => (
+                    {products && products.map((product) => (
                         <ProductCard
                             key={product._id}
                             product={product}
@@ -69,7 +69,7 @@ export const HomePage = () => {
                 </SimpleGrid>
 
                 {/* No products found */}
-                {products.length === 0 ? (
+                {products && products.length === 0 ? (
                     <Text
                         fontSize="30"
                         fontWeight="bold"

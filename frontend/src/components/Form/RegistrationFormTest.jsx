@@ -52,6 +52,7 @@ const RegistrationForm = () => {
                 duration: 3000,
                 isClosable: true,
             });
+            //TODO Check thi sshit
             const {success, message} = await loginUser(user);
 
             if (success) {

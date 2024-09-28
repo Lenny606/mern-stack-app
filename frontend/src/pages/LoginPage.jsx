@@ -8,8 +8,9 @@ import Turnstile from "react-turnstile";
 export const LoginPage = () => {
     const navigate = useNavigate();
     const [siteKey, setSiteKey] = useState('');
-    const navigationState = useNavigation();
-    const isSubmitting = navigationState.state === "submitting"
+    // const navigationState = useNavigation();
+    // const isSubmitting = navigate.state === "submitting"
+    const isSubmitting = false
 
     const [user, setUser] = useState({
         email: "",
@@ -36,17 +37,25 @@ export const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const {success, message, data} = await loginUser(user)
-        if (success) {
-            setUser({
-                email: "",
-                password: ""
-            })
-            localStorage.setItem("token", data.token)
-            navigate('/')
-        } else {
-            alert(message)
+        try {
+            const {success, message, data} = await loginUser(user)
+            if (success) {
+                setUser({
+                    email: "",
+                    password: ""
+                })
+                localStorage.setItem("token", data.token)
+                navigate('/')
+            } else {
+
+            }
+        } catch (e) {
+
+        } finally {
+
         }
+
+
     };
 
     return (
