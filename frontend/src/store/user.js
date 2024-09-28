@@ -141,5 +141,6 @@ export const useUserStore = create((set) => ({
     },
     getToken: () => {
         return localStorage.getItem("token")
-    }
+    },
+    setLogoutState: (state) => set({isLogged: state})
 }))

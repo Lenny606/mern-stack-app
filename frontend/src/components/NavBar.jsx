@@ -7,6 +7,7 @@ import {useProductStore} from "../store/product.js";
 import {useUserStore} from "../store/user.js";
 import treeMenuData from "./TreeMenu/data.js";
 import TreeMenu from "./TreeMenu/TreeMenu.jsx";
+import Logout from "./Logout.jsx";
 
 const NavBar = (props) => {
 
@@ -104,6 +105,7 @@ const NavBar = (props) => {
                         Admin
                     </Button>
                 </Link>
+                <Logout></Logout>
             </HStack>
         </Flex>
     </Container>

@@ -14,6 +14,7 @@ import {StorePage} from "./pages/About/StorePage.jsx";
 import Footer from "./components/Footer.jsx";
 import RegistrationFormTest from "./components/Form/RegistrationFormTest.jsx";
 import {useUserStore} from "./store/user.js";
+import {logoutAction} from "./pages/Logout.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -52,6 +53,7 @@ function App() {
                 <Route path={"/store"} element={<StorePage/>} />
                 <Route path={"/create"} element={<CreatePage/>} />
                 <Route path={"/login"} element={<LoginPage/>} />
+                {/*<Route path={"/logout"} action={logoutAction}/>*/}
                 <Route path={"/register"} element={<RegistrationFormTest/>} />
                 <Route
                     path="/admin"
