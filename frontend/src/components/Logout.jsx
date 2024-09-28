@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {useUserStore} from "../store/user.js";
+import {Button} from "@chakra-ui/react";
 
 const Logout = () => {
     const navigate = useNavigate();
@@ -19,9 +20,9 @@ const Logout = () => {
 
     return (
         <form onSubmit={handleLogout}>
-            <button type="submit">
+            <Button type="submit">
                 Logout
-            </button>
+            </Button>
         </form>
     );
 };
