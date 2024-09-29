@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react'
 import {Box, Button, useColorModeValue} from "@chakra-ui/react";
-import {Navigate, Route, Routes, useNavigate, useSubmit,} from "react-router-dom";
+import {Navigate, Route, Routes, useNavigate, useRouteError, useSubmit,} from "react-router-dom";
 import {HomePage} from "./pages/HomePage.jsx";
+import {ErrorPage} from "./pages/ErrorPage.jsx";
 import {CreatePage} from "./pages/CreatePage.jsx";
 import {CategoryPage} from "./pages/Category/CategoryPage.jsx";
 import {LoginPage} from "./pages/LoginPage.jsx";
@@ -15,10 +16,11 @@ import Footer from "./components/Footer.jsx";
 import RegistrationFormTest from "./components/Form/RegistrationFormTest.jsx";
 import {useUserStore} from "./store/user.js";
 import {logoutAction} from "./pages/Logout.jsx";
+import ErrorBoundary from "./pages/ErrorBoundary.jsx";
 
 function App() {
     const [count, setCount] = useState(0)
-    const {isLoggedIn, getToken,getTokenExpiration, setLogoutState} = useUserStore()
+    const {isLoggedIn, getToken, getTokenExpiration, setLogoutState} = useUserStore()
     const navigate = useNavigate();
     const timeout = 1000 * 60 * 60
     const token = getToken()
@@ -60,34 +62,46 @@ function App() {
         setLogoutState(false)
         navigate('/login');
     }
+    const ErrorTriggerComponent = () => {
+        useEffect(() => {
+            throw new Error("Simulated 500 error");
+        }, []);
+        return null;
+    };
 
     return (
 
         <Box minH={"100vh"} bg={useColorModeValue("grey.100", 'gray.900')}>
             {/*   NAVBAR */}
             <NavBar treeMenuData={treeMenuData}/>
-            <Routes>
-                <Route path={"/"} element={<HomePage/>}/>
-                <Route path={"/category"} element={<CategoryPage/>}/>
-                <Route path={"/about"} element={<AboutPage/>}/>
-                <Route path={"/contact"} element={<ContactPage/>}/>
-                <Route path={"/store"} element={<StorePage/>}/>
-                <Route path={"/create"} element={
-                    <ProtectedRoute>
-                        <CreatePage/>
-                    </ProtectedRoute>}/>
-                <Route path={"/login"} element={<LoginPage/>}/>
-                {/*<Route path={"/logout"} action={logoutAction}/>*/}
-                <Route path={"/register"} element={<RegistrationFormTest/>}/>
-                <Route
-                    path="/admin"
-                    element={
+            <ErrorBoundary>
+
+                <Routes>
+                    <Route path={"/trigger-error"} element={<ErrorTriggerComponent />} />
+                    <Route path={"*"} element={<Navigate to="/error" state={{status: 404}}/>}/>
+                    <Route path={"/error"} element={<ErrorPage/>}/>
+                    <Route path={"/"} element={<HomePage/>}/>
+                    <Route path={"/category"} element={<CategoryPage/>}/>
+                    <Route path={"/about"} element={<AboutPage/>}/>
+                    <Route path={"/contact"} element={<ContactPage/>}/>
+                    <Route path={"/store"} element={<StorePage/>}/>
+                    <Route path={"/create"} element={
                         <ProtectedRoute>
-                            <AdminPage/>
-                        </ProtectedRoute>
-                    }
-                />
-            </Routes>
+                            <CreatePage/>
+                        </ProtectedRoute>}/>
+                    <Route path={"/login"} element={<LoginPage/>}/>
+                    {/*<Route path={"/logout"} action={logoutAction}/>*/}
+                    <Route path={"/register"} element={<RegistrationFormTest/>}/>
+                    <Route
+                        path="/admin"
+                        element={
+                            <ProtectedRoute>
+                                <AdminPage/>
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
+            </ErrorBoundary>
             <Footer/>
 
         </Box>
