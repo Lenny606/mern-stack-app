@@ -5,16 +5,17 @@ import './index.css'
 import './components/TreeMenu/styles.css'
 import {ChakraProvider} from "@chakra-ui/react";
 import {BrowserRouter} from "react-router-dom";
+import {LoggerProvider} from "./utility/LoggerContext.jsx";
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         {/*wrap with react router */}
         <BrowserRouter>
-
-            <ChakraProvider>
-                <App/>
-            </ChakraProvider>
-
+            <LoggerProvider>
+                <ChakraProvider>
+                    <App/>
+                </ChakraProvider>
+            </LoggerProvider>
         </BrowserRouter>
     </StrictMode>,
 )

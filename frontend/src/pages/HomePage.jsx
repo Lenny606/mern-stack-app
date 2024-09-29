@@ -2,12 +2,14 @@ import {Container, VStack, Text, Image, Box} from "@chakra-ui/react";
 import {Link} from "react-router-dom"
 import {SimpleGrid} from '@chakra-ui/react'
 import {useProductStore} from "../store/product.js";
+import {useLogger} from "../utility/LoggerContext.jsx"
 import React, {useEffect, useState} from "react";
 import {ProductCard} from "../components/ProductCard.jsx";
 
 export const HomePage = () => {
 
     const {fetchProducts, products} = useProductStore();
+    const logger = useLogger()
 
     //TODO implement some feature like rich text field
     // https://www.freecodecamp.org/news/use-the-javascript-selection-api-to-build-a-rich-text-editor/
@@ -23,6 +25,7 @@ export const HomePage = () => {
     useEffect(() => {
         fetchProducts()
     }, [fetchProducts]);
+
 
 
     return (

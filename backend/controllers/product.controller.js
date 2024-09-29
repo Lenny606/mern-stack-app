@@ -1,5 +1,6 @@
 import Product from "../models/Product/product.model.js";
 import mongoose from "mongoose";
+import Logger from "../utility/logger.js";
 
 export const getProducts = async (req, res) => {
 
@@ -11,6 +12,7 @@ export const getProducts = async (req, res) => {
         const products = await Product.find({}).sort({updatedAt: -1}) //finds all products + sorts by updated
         res.status(200).json({success: true, data: products})
     } catch (err) {
+        Logger.error('Products not loaded on homepage', err);
         res.status(500).json({success: false, message: err.message})
     }
 }
