@@ -16,21 +16,44 @@ export const getProducts = async (req, res) => {
 }
 export const searchProducts = async (req, res) => {
     const {name} = req.params
-    const limit = parseInt(req.query.limit) || 5;
-    const skip = parseInt(req.query.skip) || 0;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
     try {
-        const products = await Product.find({
-            name: {$regex: name, $options: 'i'}
-        })
-            .limit(limit)
-            .skip(skip)
-            .sort({name: 1})
+        const searchQuery = {
+            name: { $regex: name, $options: 'i' }
+        };
 
-        // if (products.length <= 0) {
-        //     res.status(404).json({success: false, data: products, count: products.length, message: "No products found: " +name })
-        // }
-        res.status(200).json({success: true, data: products, count: products.length})
+        const [products, total] = await Promise.all([
+            Product.find(searchQuery)
+                .limit(limit)
+                .skip(skip)
+                .sort({ name: 1 })
+                .lean(),
+            Product.countDocuments(searchQuery)
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+        const response = {
+            success: true,
+            data: products,
+            count: products.length,
+            pagination: {
+                currentPage: page,
+                totalPages: totalPages,
+                totalItems: total,
+                itemsPerPage: limit,
+                hasNextPage: page < totalPages,
+                hasPrevPage: page > 1
+            }
+        };
+        console.log(response)
+        if (products.length === 0) {
+            response.message = `No products found matching: ${name}`;
+        }
+
+        res.status(200).json({response})
     } catch (err) {
         res.status(500).json({success: false, message: err.message})
     }

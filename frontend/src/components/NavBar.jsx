@@ -26,7 +26,7 @@ const NavBar = (props) => {
     const handleSearch = async (term) => {
         const result = await searchProducts(term)
         const data = result.data.data //array
-        console.log(data)
+        console.log(result)
         const itemsCount = result.count //array
 
         if (itemsCount > 0) {
