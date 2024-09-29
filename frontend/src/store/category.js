@@ -62,5 +62,16 @@ export const useCategoryStore = create((set) => ({
             categories: state.categories.map(category => category._id === id ? data.data : category)
         }))
         return {success: true, message: "Values are saved"}
-    }
+    },
+    searchCategories: async function(name) {
+
+        const res = await fetch("api/categories/search/" + name, )
+
+        const data = await res.json()
+
+        if (data.response && !data.response.count ) {
+            return {success: false, data: data, message: "No categories found"}
+        }
+        return {success: true, data: data.response, count: data.response.count}
+    },
 }))

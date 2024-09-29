@@ -54,3 +54,47 @@ export const createCategory = async (req, res) => {
         res.status(500).json({success: false, message: "Category not saved", error: err.message})
     }
 }
+export const searchCategories = async (req, res) => {
+    const {name} = req.params
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    try {
+        const searchQuery = {
+            name: { $regex: name, $options: 'i' }
+        };
+
+        const [categories, total] = await Promise.all([
+            Category.find(searchQuery)
+                .limit(limit)
+                .skip(skip)
+                .sort({ name: 1 })
+                .lean(),
+            Category.countDocuments(searchQuery)
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+        const response = {
+            success: true,
+            data: categories,
+            count: categories.length,
+            pagination: {
+                currentPage: page,
+                totalPages: totalPages,
+                totalItems: total,
+                itemsPerPage: limit,
+                hasNextPage: page < totalPages,
+                hasPrevPage: page > 1
+            }
+        };
+
+        if (categories.length === 0) {
+            response.message = `No categories found matching: ${name}`;
+        }
+
+        res.status(200).json({response})
+    } catch (err) {
+        res.status(500).json({success: false, message: err.message})
+    }
+}

@@ -10,27 +10,35 @@ import TreeMenu from "./TreeMenu/TreeMenu.jsx";
 import Logout from "./Logout.jsx";
 import Search from "./Inputs/Search.jsx";
 import {useEffect, useRef, useState} from "react";
+import {useCategoryStore} from "../store/category.js";
 
 const NavBar = (props) => {
 
     const [searchedItems, setSearchedItems] = useState([]);
-    const [searchedItemsCount, setSearchedItemsCount] = useState([]);
+    const [searchedItemsCount, setSearchedItemsCount] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
 
     const treeMenuData = props.treeMenuData;
     // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
     const {colorMode, toggleColorMode} = useColorMode();
     const {products, searchProducts} = useProductStore();
+    const {searchCategories} = useCategoryStore();
     const {isLogged} = useUserStore();
 
     const handleSearch = async (term) => {
-        const result = await searchProducts(term)
-        const data = result.data.data //array
-        console.log(result)
-        const itemsCount = result.count //array
+        const resultProducts = await searchProducts(term)
+        const resultCategories = await searchCategories(term)
+
+        const dataProducts = resultProducts.data.data ?? []//array
+        const dataCategories = resultCategories.data.data ?? []//array
+        const itemsProductCount = resultProducts.count ?? 0 //array
+        const itemsCategoriesCount = resultCategories.count ?? 0 //array
+
+        const mergedData = [...dataProducts, ...dataCategories];
+        const itemsCount = itemsProductCount + itemsCategoriesCount
 
         if (itemsCount > 0) {
-            setSearchedItems(data)
+            setSearchedItems(mergedData)
             setSearchedItemsCount(itemsCount)
             setIsOpen(true)
         }
@@ -68,29 +76,6 @@ const NavBar = (props) => {
             >
                 <Link to={'/'}>Product store </Link>
             </Text>
-
-            {/*    Middle buttons */}
-            {/*    <HStack spacing={treeMenuData.length} alignItems={'center'} >*/}
-            {/*        {treeMenuData.map(function(item) {*/}
-            {/*            console.log(item)*/}
-            {/*            return (*/}
-            {/*                <Link key={item.id} to={item.path}>*/}
-            {/*                    {item.label}*/}
-            {/*                </Link>*/}
-            {/*            /!*    check for nested items*!/*/}
-            {/*            */}
-            {/*                hasChildren && displayCurrentChild[item.id]*/}
-            {/*                    ? <TreeMenuList list={item.children}/>*/}
-            {/*                    : null*/}
-
-            {/*            */}
-            {/*            )})*/}
-            {/*        }*/}
-
-            {/*        /!*<Button onClick={toggleColorMode}>*!/*/}
-            {/*        /!*    {colorMode === 'light' ? <IoMoon/> : <LuSun />}*!/*/}
-            {/*        /!*</Button>*!/*/}
-            {/*    </HStack>*/}
 
             <TreeMenu menu={treeMenuData}>
 
