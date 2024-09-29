@@ -2,12 +2,23 @@ import {Container, VStack, Text, Image, Box} from "@chakra-ui/react";
 import {Link} from "react-router-dom"
 import {SimpleGrid} from '@chakra-ui/react'
 import {useProductStore} from "../store/product.js";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {ProductCard} from "../components/ProductCard.jsx";
 
 export const HomePage = () => {
 
     const {fetchProducts, products} = useProductStore();
+
+    //TODO implement some feature like rich text field
+    // https://www.freecodecamp.org/news/use-the-javascript-selection-api-to-build-a-rich-text-editor/
+    const selection = window.getSelection();
+    document.addEventListener("selectionchange", () => {
+
+        const range = selection.getRangeAt(0)
+
+        console.log("Selection changed:", selection.toString());
+        console.log("Selection changed:", range);
+    });
 
     useEffect(() => {
         fetchProducts()
