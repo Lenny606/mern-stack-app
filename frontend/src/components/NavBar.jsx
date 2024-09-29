@@ -8,14 +8,26 @@ import {useUserStore} from "../store/user.js";
 import treeMenuData from "./TreeMenu/data.js";
 import TreeMenu from "./TreeMenu/TreeMenu.jsx";
 import Logout from "./Logout.jsx";
+import Search from "./Inputs/Search.jsx";
 
 const NavBar = (props) => {
 
     const treeMenuData = props.treeMenuData;
     // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
     const {colorMode, toggleColorMode} = useColorMode();
-    const {products} = useProductStore();
+    const {products, searchProducts} = useProductStore();
     const {isLogged} = useUserStore();
+
+    const handleSearch = async (term) => {
+        const result = await searchProducts(term)
+        const data = result.data.data //array
+        const itemsCount = result.count //array
+
+        console.log(itemsCount);
+
+        // Implement your search logic here
+        //search Products
+    };
 
     return <Container maxW={"container.xl"} px={12} bgColor={"#276cf930"}>
         <Flex h={16} alignItems={"center"} justifyContent={'space-between'}
@@ -64,7 +76,8 @@ const NavBar = (props) => {
 
             </TreeMenu>
             {/*    Right buttons */}
-            <HStack spacing={3} alignItems={'center'}>
+            <HStack spacing={4} alignItems={'center'}>
+                <Search onSearch={handleSearch} />
                 <Link to="/create">
                     <Button
                         aria-label="Create new item"

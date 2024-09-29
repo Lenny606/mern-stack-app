@@ -69,5 +69,16 @@ export const useProductStore = create((set) => ({
             products: state.products.map(product => product._id === id ? data.data : product)
         }))
         return {success: true, message: "Values are saved"}
-    }
+    },
+    searchProducts: async function(name) {
+
+        const res = await fetch("api/products/search/" + name, )
+
+        const data = await res.json()
+        console.log(data)
+        if (!data.success) {
+            return {success: false, message: data.message}
+        }
+        return {success: true, data: data, count: data.count}
+    },
 }))

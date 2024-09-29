@@ -5,11 +5,32 @@ export const getProducts = async (req, res) => {
 
     const token = req.headers.authorization.split(" ")[1]
     if (!token) {
-        return  res.status(401).json({success: false, message: "Unauthorized"})
+        return res.status(401).json({success: false, message: "Unauthorized"})
     }
     try {
         const products = await Product.find({}).sort({updatedAt: -1}) //finds all products + sorts by updated
         res.status(200).json({success: true, data: products})
+    } catch (err) {
+        res.status(500).json({success: false, message: err.message})
+    }
+}
+export const searchProducts = async (req, res) => {
+    const {name} = req.params
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = parseInt(req.query.skip) || 0;
+
+    try {
+        const products = await Product.find({
+            name: {$regex: name, $options: 'i'}
+        })
+            .limit(limit)
+            .skip(skip)
+            .sort({name: 1})
+
+        if (products.length <= 0) {
+            res.status(404).json({success: false, data: products, count: products.length, message: "No products found: " +name })
+        }
+        res.status(200).json({success: true, data: products, count: products.length})
     } catch (err) {
         res.status(500).json({success: false, message: err.message})
     }
