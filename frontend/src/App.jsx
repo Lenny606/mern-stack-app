@@ -48,7 +48,7 @@ function App() {
     };
 
     const ProtectedRoute = ({children}) => {
-        console.log(isAuthenticated())
+
         if (!isAuthenticated()) {
             return <Navigate to="/login" replace/>;
         }

@@ -15,7 +15,7 @@ export default function TreeMenuItem({item, isChild, isOpen}) {
             [currentId] : !displayCurrentChild[currentId]
         })
         isOpen(true);
-        console.log(displayCurrentChild)
+
     }
 
     return (

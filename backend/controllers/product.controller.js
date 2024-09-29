@@ -98,7 +98,6 @@ export const createProduct = async (req, res) => {
         await newProduct.save()
         res.status(200).json({success: true, message: "Product saved successfully", data: newProduct})
     } catch (err) {
-        console.log("Error saving product" + err.message)
         res.status(500).json({success: false, message: "Product not saved", error: err.message})
     }
 }

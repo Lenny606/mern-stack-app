@@ -136,7 +136,7 @@ export const useUserStore = create((set) => ({
         set((state) => ({
             isLogged: true,
         }))
-        console.log(data)
+
         return {success: true, message: "User logout successful", data: data}
     },
     getToken: function () {
@@ -160,7 +160,7 @@ export const useUserStore = create((set) => ({
     },
     checkToken: () => {
         const token = this.getToken()
-        console.log('token')
+
         if (!token) {
             redirect("/login")
         }

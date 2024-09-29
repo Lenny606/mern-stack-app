@@ -33,7 +33,6 @@ export const CategoryCard = (data) => {
     const bg = useColorModeValue("grey.800", "grey.200")
     const {isOpen, onOpen, onClose} = useDisclosure()
     const toast = useToast()
-    // console.log(category.category.name)
 
     // async function handleDeleteCategory(id) {
     //     const {success, message} = await deleteCategory(id);
