@@ -69,3 +69,22 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.menu-wrapper .menu-list-container.active {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 50px;
+  text-align: left;
+}
+.menu-wrapper .menu-list-container.active::before {
+  content: " ";              /* Empty content to ensure it displays */
+  position: absolute;        /* Positioning to place it properly */
+  left: -7px;                   /* Align it to the left */
+  top: 0;                    /* Start at the top */
+  height: 100%;              /* Full height of the container */
+  width: 2px;
+  background: black;
+
+}

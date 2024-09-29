@@ -4,7 +4,7 @@ import {FaChevronUp, FaChevronDown } from "react-icons/fa";
 import {Link} from "react-router-dom";
 // import './styles.css';
 
-export default function TreeMenuItem({item, isChild}) {
+export default function TreeMenuItem({item, isChild, isOpen}) {
 
     const [displayCurrentChild, setDisplayCurrentChild] = useState({})
     let hasChildren = item && item.children && item.children.length;
@@ -14,6 +14,8 @@ export default function TreeMenuItem({item, isChild}) {
             ...displayCurrentChild,
             [currentId] : !displayCurrentChild[currentId]
         })
+        isOpen(true);
+        console.log(displayCurrentChild)
     }
 
     return (
@@ -28,7 +30,7 @@ export default function TreeMenuItem({item, isChild}) {
                 {hasChildren
                     ? <span onClick={()=>handleToggleClick(item.id)}>
                         {
-                            displayCurrentChild[item.id] ? <FaChevronUp  color={"red"}/> : <FaChevronDown color={"blue"} />
+                            displayCurrentChild[item.id] ? <FaChevronUp  color={"black"}   /> : <FaChevronDown color={"black"} />
                         }
                     </span>
                     : null

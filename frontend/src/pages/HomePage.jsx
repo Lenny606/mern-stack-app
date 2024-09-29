@@ -16,8 +16,8 @@ export const HomePage = () => {
 
         const range = selection.getRangeAt(0)
 
-        console.log("Selection changed:", selection.toString());
-        console.log("Selection changed:", range);
+        // console.log("Selection changed:", selection.toString());
+        // console.log("Selection changed:", range);
     });
 
     useEffect(() => {
