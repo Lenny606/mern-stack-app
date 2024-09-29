@@ -27,9 +27,9 @@ export const searchProducts = async (req, res) => {
             .skip(skip)
             .sort({name: 1})
 
-        if (products.length <= 0) {
-            res.status(404).json({success: false, data: products, count: products.length, message: "No products found: " +name })
-        }
+        // if (products.length <= 0) {
+        //     res.status(404).json({success: false, data: products, count: products.length, message: "No products found: " +name })
+        // }
         res.status(200).json({success: true, data: products, count: products.length})
     } catch (err) {
         res.status(500).json({success: false, message: err.message})

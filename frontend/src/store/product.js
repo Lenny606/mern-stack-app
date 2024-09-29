@@ -75,9 +75,9 @@ export const useProductStore = create((set) => ({
         const res = await fetch("api/products/search/" + name, )
 
         const data = await res.json()
-        console.log(data)
-        if (!data.success) {
-            return {success: false, message: data.message}
+
+        if (!data.count) {
+            return {success: false, data: data, message: "No products found"}
         }
         return {success: true, data: data, count: data.count}
     },

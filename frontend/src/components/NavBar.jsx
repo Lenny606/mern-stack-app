@@ -1,5 +1,5 @@
-import {Button, Container, Flex, HStack, Text, useColorMode} from "@chakra-ui/react";
-import {LockIcon, PlusSquareIcon, UnlockIcon} from "@chakra-ui/icons";
+import {Button, Collapse, Container, Flex, HStack, List, ListIcon, ListItem, Text, useColorMode, Box} from "@chakra-ui/react";
+import {LockIcon, PlusSquareIcon, SearchIcon, UnlockIcon} from "@chakra-ui/icons";
 import {Link} from "react-router-dom";
 import {IoMoon} from "react-icons/io5";
 import {LuSun} from "react-icons/lu";
@@ -9,8 +9,13 @@ import treeMenuData from "./TreeMenu/data.js";
 import TreeMenu from "./TreeMenu/TreeMenu.jsx";
 import Logout from "./Logout.jsx";
 import Search from "./Inputs/Search.jsx";
+import {useEffect, useRef, useState} from "react";
 
 const NavBar = (props) => {
+
+    const [searchedItems, setSearchedItems] = useState([]);
+    const [searchedItemsCount, setSearchedItemsCount] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     const treeMenuData = props.treeMenuData;
     // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
@@ -21,14 +26,29 @@ const NavBar = (props) => {
     const handleSearch = async (term) => {
         const result = await searchProducts(term)
         const data = result.data.data //array
+        console.log(data)
         const itemsCount = result.count //array
 
-        console.log(itemsCount);
+        if (itemsCount > 0) {
+            setSearchedItems(data)
+            setSearchedItemsCount(itemsCount)
+            setIsOpen(true)
+        }
 
-        // Implement your search logic here
-        //search Products
     };
+    const wrapperRef = useRef(null);
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        }
 
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     return <Container maxW={"container.xl"} px={12} bgColor={"#276cf930"}>
         <Flex h={16} alignItems={"center"} justifyContent={'space-between'}
 
@@ -78,6 +98,30 @@ const NavBar = (props) => {
             {/*    Right buttons */}
             <HStack spacing={4} alignItems={'center'}>
                 <Search onSearch={handleSearch} />
+                <Collapse in={isOpen && searchedItems.length > 0} animateOpacity>
+                    <Box
+                        mt={8}
+                        border="1px"
+                        // borderColor={borderColor}
+                        borderRadius="md"
+                        boxShadow="md"
+                        bg={'#276cf930'}
+                        position="absolute"
+                        right={545}
+                        width="25%"
+                        zIndex={10}
+                        ref={wrapperRef}
+                    >
+                        <List spacing={3} p={4}>
+                            {searchedItems.length > 0 && searchedItems.map((item, index) => (
+                                <ListItem key={index} display="flex" alignItems="center">
+                                    <ListIcon as={SearchIcon} color="green.500" />
+                                    <Text>{item.name}</Text>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
+                </Collapse>
                 <Link to="/create">
                     <Button
                         aria-label="Create new item"
