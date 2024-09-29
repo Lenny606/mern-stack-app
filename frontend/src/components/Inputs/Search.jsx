@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     Input,
     InputGroup,
@@ -6,12 +6,16 @@ import {
     Button,
     Box
 } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import {SearchIcon} from '@chakra-ui/icons';
 
-const SearchInputButton = ({ onSearch }) => {
+const SearchInputButton = ({onSearch}) => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = () => {
+        if (searchTerm === "") {
+            alert("Please enter a search term")
+            return
+        }
         onSearch(searchTerm);
     };
 
@@ -34,7 +38,7 @@ const SearchInputButton = ({ onSearch }) => {
                 />
                 <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleSearch}>
-                        <SearchIcon />
+                        <SearchIcon/>
                     </Button>
                 </InputRightElement>
             </InputGroup>
