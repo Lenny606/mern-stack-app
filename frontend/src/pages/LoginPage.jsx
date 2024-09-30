@@ -60,8 +60,6 @@ export const LoginPage = () => {
         } finally {
 
         }
-
-
     };
 
     return (
@@ -96,7 +94,6 @@ export const LoginPage = () => {
                         isDev() ? null : <Turnstile
                             sitekey={siteKey}
                             onVerify={(token) => setValue('token', token)}
-                            refreshExpired={"auto"}
                         />
                     }
                 </form>
