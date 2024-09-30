@@ -9,6 +9,7 @@ import {isDev} from "../utility/enviroment.js";
 export const LoginPage = () => {
     const navigate = useNavigate();
     const [siteKey, setSiteKey] = useState('');
+    const [token, setToken] = useState('');
     // const navigationState = useNavigation();
     // const isSubmitting = navigate.state === "submitting"
     const isSubmitting = false
@@ -90,6 +91,7 @@ export const LoginPage = () => {
                         isDev() ? null : <Turnstile
                             sitekey={siteKey}
                             onVerify={(token) => setValue('token', token)}
+                            refreshExpired={"auto"}
                         />
                     }
                 </form>

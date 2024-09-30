@@ -15,7 +15,7 @@ export const getSiteKey = async (req, res) => {
         // Return the siteKey if it exists
         return res.status(200).json({
             success: true,
-            sitekey: siteKey,
+            siteKey: siteKey,
         });
 
     } catch (err) {

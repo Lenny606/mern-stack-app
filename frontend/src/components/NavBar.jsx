@@ -17,6 +17,7 @@ const NavBar = (props) => {
     const [searchedItems, setSearchedItems] = useState([]);
     const [searchedItemsCount, setSearchedItemsCount] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const treeMenuData = props.treeMenuData;
     // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
@@ -26,23 +27,34 @@ const NavBar = (props) => {
     const {isLogged} = useUserStore();
 
     const handleSearch = async (term) => {
-        const resultProducts = await searchProducts(term)
-        const resultCategories = await searchCategories(term)
+        setIsLoading(true);
+        try {
+            const resultProducts = await searchProducts(term);
+            const resultCategories = await searchCategories(term);
 
-        const dataProducts = resultProducts.data.data ?? []//array
-        const dataCategories = resultCategories.data.data ?? []//array
-        const itemsProductCount = resultProducts.count ?? 0 //array
-        const itemsCategoriesCount = resultCategories.count ?? 0 //array
+            const dataProducts = resultProducts.data.data ?? [];
+            const dataCategories = resultCategories.data.data ?? [];
+            const itemsProductCount = resultProducts.count ?? 0;
+            const itemsCategoriesCount = resultCategories.count ?? 0;
 
-        const mergedData = [...dataProducts, ...dataCategories];
-        const itemsCount = itemsProductCount + itemsCategoriesCount
+            const mergedData = [...dataProducts, ...dataCategories];
+            const itemsCount = itemsProductCount + itemsCategoriesCount;
 
-        if (itemsCount > 0) {
-            setSearchedItems(mergedData)
-            setSearchedItemsCount(itemsCount)
-            setIsOpen(true)
+            if (itemsCount > 0) {
+                setSearchedItems(mergedData);
+                setSearchedItemsCount(itemsCount);
+                setIsOpen(true);
+            } else {
+
+                console.log('No items found');
+            }
+        } catch (error) {
+
+            console.error('Error occurred during search:', error);
+        } finally {
+
+            setIsLoading(false);
         }
-
     };
     const wrapperRef = useRef(null);
     useEffect(() => {
@@ -98,6 +110,7 @@ const NavBar = (props) => {
                         ref={wrapperRef}
                     >
                         <List spacing={3} p={4}>
+                            {isLoading && <Text>Loading...</Text>}
                             {searchedItems.length > 0 && searchedItems.map((item, index) => (
                                 <ListItem key={index} display="flex" alignItems="center">
                                     <ListIcon as={SearchIcon} color="green.500" />
