@@ -29,11 +29,7 @@ export const LoginPage = () => {
             setSiteKey(key);   // Update the state with the siteKey
         };
 
-        if (isDev()) {
-            fetchAndSetSiteKey();
-        } else {
-            setSiteKey(process.env.TURNSTILE_SITE_KEY)
-        }
+        fetchAndSetSiteKey();
     }, []); // Empty dependency array, meaning this will run only on component mount
 
 
