@@ -4,6 +4,7 @@ import {ChakraProvider, FormControl, FormLabel} from '@chakra-ui/react';
 import {useUserStore} from "../store/user.js";
 import {redirect, useNavigate, useNavigation} from "react-router-dom";
 import Turnstile from "react-turnstile";
+import {isDev} from "../utility/enviroment.js";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -28,7 +29,11 @@ export const LoginPage = () => {
             setSiteKey(key);   // Update the state with the siteKey
         };
 
-        fetchAndSetSiteKey();
+        if (isDev()) {
+            fetchAndSetSiteKey();
+        } else {
+            setSiteKey(process.env.TURNSTILE_SITE_KEY)
+        }
     }, []); // Empty dependency array, meaning this will run only on component mount
 
 
@@ -87,10 +92,12 @@ export const LoginPage = () => {
                     <Button colorScheme="teal" type="submit" width="100%" disabled={isSubmitting}>
                         {isSubmitting ? "Logging... " : "Login"}
                     </Button>
-                    <Turnstile
-                        sitekey={siteKey}
-                        onVerify={(token) => setValue('token', token)}
-                    />
+                    {
+                        isDev() ? null : <Turnstile
+                            sitekey={siteKey}
+                            onVerify={(token) => setValue('token', token)}
+                        />
+                    }
                 </form>
             </Box>
         </ChakraProvider>
