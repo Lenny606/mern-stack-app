@@ -45,6 +45,7 @@ The frontend of this application was set up using Vite. Here are the steps that 
    npm i react-icons
    npm i zustand
    npm install --save-dev jest @testing-library/react @testing-library/jest-dom @testing-library/user-event
+3. npm i @tanstack/react-query  - 
 
 ## Packages Used
 

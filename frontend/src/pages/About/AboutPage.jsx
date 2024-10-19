@@ -13,6 +13,10 @@ export const AboutPage = () => {
     //     fetchProducts()
     // }, [fetchProducts]);
 
+    const fakturoid = async () => {
+        const res = await fetch( 'https://app.fakturoid.cz/api/v3/oauth?client_id=66ef4d634e2d123adf22d52ddd88c3abc17c3b90&redirect_uri=https://mern-stack-app-sjj5.onrender.com/&response_type=code');
+        const data = await res.json();
+    }
 
     return (
         <Container

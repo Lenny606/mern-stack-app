@@ -70,16 +70,20 @@ const NavBar = (props) => {
         };
     }, []);
     return <Container maxW={"container.xl"} px={12} bgColor={"#276cf930"}>
-        <Flex h={16} alignItems={"center"} justifyContent={'space-between'}
-
+        <Flex h={16}
+              alignItems={"center"}
+              justifyContent={'space-between'}
               flexDir={{
                   base: 'column',
-                  sm: "row"
+                  md: "row",
+                  lg:"row"
               }}>
 
             <Text
                 fontSize={{
-                    base: "22", sm: "28"
+                    base: "24px",  // Smaller font size on mobile
+                    md: "30px",    // Medium font size on tablets
+                    lg: "36px"
                 }}
                 fontWeight={"bold"}
                 textTransform={"uppercase"}
@@ -120,7 +124,7 @@ const NavBar = (props) => {
                         </List>
                     </Box>
                 </Collapse>
-                <Link to="/create">
+                <Link to="/create" >
                     <Button
                         aria-label="Create new item"
                         title="Create new item" // Tooltip for accessibility

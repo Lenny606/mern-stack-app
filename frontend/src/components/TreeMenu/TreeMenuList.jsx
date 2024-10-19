@@ -20,9 +20,8 @@ export default function TreeMenuList({ list = [], isChild = false }) {
                     <div></div>
                 </div>
             )}
-
             {/* Menu List */}
-            <ul className={`menu-list-container ${!isOpen && isChild ? 'active' : 'hidden'}`}>
+            <ul className={`menu-list-container ${isOpen && isChild ? 'active' : 'hidden'}`}>
                 {
                     list && list.length
                         ? list.map((listItem) => {

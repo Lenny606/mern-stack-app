@@ -1,41 +1,35 @@
-import {Button, Container, Flex, HStack, Text, useColorMode} from "@chakra-ui/react";
-import { PlusSquareIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
-import {IoMoon} from "react-icons/io5";
-import {LuSun} from "react-icons/lu";
-import {useProductStore} from "../store/product.js";
-import treeMenuData from "./TreeMenu/data.js";
-import TreeMenu from "./TreeMenu/TreeMenu.jsx";
+import {Button, Container, Flex, HStack, Text, useColorMode, Link, Icon} from "@chakra-ui/react";
+// import { Link } from "react-router-dom";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import SocialLinks from "./Links/SocialLinks.jsx";
+import FooterLinks from "./Links/FooterLinks.jsx";
 
 const Footer = (props) => {
 
-    const treeMenuData = props.treeMenuData;
+
     // const hasChildren = treeMenuData && treeMenuData.children.length > 0;
 
-    const {colorMode, toggleColorMode} = useColorMode();
 
     return <Container maxW={"1140px"} px={4}>
-        <Flex h={16} alignItems={"center"} justifyContent={'space-between'}
-
+        <Flex h={16}
+              columnGap={20}
+              rowGap={5}
+              alignItems={"center"}
+              justifyContent={'center'}
               flexDir={{
                   base: 'column',
-                  sm: "row"
+                  md: "row",
+                  lg: "row",
               }}>
 
-            <TreeMenu menu={treeMenuData}>
+            {/*     links  */}
+            {/*<TreeMenu menu={treeMenuData}>*/}
 
-            </TreeMenu>
-        {/*    Right buttons */}
-            <HStack spacing={2} alignItems={'center'} >
-                <Link to={"/create"}>
-                    <Button>
-                        {/*<PlusSquareIcon  fontSize={20}/>*/}
-                    </Button>
-                </Link>
-                    <Button onClick={toggleColorMode}>
-                        {/*{colorMode === 'light' ? <IoMoon/> : <LuSun />}*/}
-                    </Button>
-            </HStack>
+            {/*</TreeMenu>*/}
+
+            <FooterLinks  treeMenuData={ props.treeMenuData}/>
+        {/*    Social links icons */}
+            <SocialLinks />
         </Flex>
     </Container>
 }

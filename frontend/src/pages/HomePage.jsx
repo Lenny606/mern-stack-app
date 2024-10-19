@@ -5,10 +5,15 @@ import {useProductStore} from "../store/product.js";
 import {useLogger} from "../utility/LoggerContext.jsx"
 import React, {useEffect, useState} from "react";
 import {ProductCard} from "../components/ProductCard.jsx";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 
 export const HomePage = () => {
-
     const {fetchProducts, products} = useProductStore();
+
+    const queryClient = useQueryClient()
+    const query = useQuery({ queryKey: ['products'], queryFn: fetchProducts })
+    // console.log(query.data)
+
     const logger = useLogger()
 
     //TODO implement some feature like rich text field
@@ -22,14 +27,14 @@ export const HomePage = () => {
         // console.log("Selection changed:", range);
     });
 
-    useEffect(() => {
-        fetchProducts()
-    }, [fetchProducts]);
+    // useEffect(() => {
+    //     fetchProducts()
+    // }, [fetchProducts]);
 
 
 
     return (
-        <Container bgColor="#276cf930" maxW="container.xl" py={12} >
+        <Container bgColor="#276cf930" maxW="container.xl" width={'full'} py={12} >
 
             <Box boxSize=""
                  display="flex"
@@ -41,9 +46,17 @@ export const HomePage = () => {
                     src="/hp-main-banner.webp"
                     alt="Main banner"
                     aria-hidden="true"
-                    boxSize={1200}
-                    height={600}
+                    height={{
+                        base: "200px",  // Smaller height on mobile
+                        md: "400px",    // Medium height on tablets
+                        lg: "600px",    // Full height on large screens
+                    }}
                     objectFit="fit"
+                    boxSize={{
+                        base: "100%", // Full width on mobile
+                        md: "80%",    // 80% width on tablets
+                        lg: "60%",    // 60% width on larger screens
+                    }}
 
                 />
             </Box>
@@ -52,7 +65,11 @@ export const HomePage = () => {
                 {/* Heading for screen readers */}
                 <Text
                     as="h1"
-                    fontSize="30"
+                    fontSize={{
+                        base: "24px",  // Smaller font size on mobile
+                        md: "30px",    // Medium font size on tablets
+                        lg: "36px",    // Larger font size on large screens
+                    }}
                     fontWeight="bold"
                     bgGradient="linear(to-r, cyan.400, blue.500)"
                     bgClip="text"
@@ -85,7 +102,11 @@ export const HomePage = () => {
                 {/* No products found */}
                 {products && products.length === 0 ? (
                     <Text
-                        fontSize="30"
+                        fontSize={{
+                            base: "24px",  // Smaller font size on mobile
+                            md: "30px",    // Medium font size on tablets
+                            lg: "36px",    // Larger font size on large screens
+                        }}
                         fontWeight="bold"
                         bgGradient="linear(to-r, cyan.400, blue.500)"
                         bgClip="text"
@@ -96,7 +117,11 @@ export const HomePage = () => {
                         <Link to="/create" aria-label="Create a product">
                             <Text
                                 as="span"
-                                fontSize="30"
+                                fontSize={{
+                                    base: "24px",  // Smaller font size on mobile
+                                    md: "30px",    // Medium font size on tablets
+                                    lg: "36px",    // Larger font size on large screens
+                                }}
                                 fontWeight="bold"
                                 _hover={{ textDecoration: 'underline' }}
                             >
