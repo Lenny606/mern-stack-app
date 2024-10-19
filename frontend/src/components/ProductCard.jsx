@@ -83,6 +83,7 @@ export const ProductCard = (data) => {
             transition={'all 0.3s'}
             _hover={{transform: 'translateY(-5px)', shadow: "x1"}}
             bg={bg}
+            className={"item"}
         >
             {/*TODO refactor for list of images*/}
             <Image src={data.product.images[0]} alt={data.product.name} h={48} w={'full'} objectFit={'cover'}>
