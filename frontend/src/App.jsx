@@ -17,7 +17,9 @@ import RegistrationFormTest from "./components/Form/RegistrationFormTest.jsx";
 import {useUserStore} from "./store/user.js";
 import {logoutAction} from "./pages/Logout.jsx";
 import ErrorBoundary from "./pages/ErrorBoundary.jsx";
+// TANSTACK REACT QUERY SUPPORT
 import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 function App() {
     const [count, setCount] = useState(0)
@@ -25,6 +27,7 @@ function App() {
     const navigate = useNavigate();
     const timeout = 1000 * 60 * 60
     const token = getToken()
+    //create client and wrap with Provider
     const queryClient = new QueryClient()
 
     useEffect(() => {
@@ -77,7 +80,9 @@ function App() {
             {/*   NAVBAR */}
             <NavBar treeMenuData={treeMenuData}/>
             <ErrorBoundary>
+                {/* setup for Components */}
                 <QueryClientProvider client={queryClient}>
+                    <ReactQueryDevtools initialIsOpen={false} />
                 <Routes>
                     <Route path={"/trigger-error"} element={<ErrorTriggerComponent />} />
                     <Route path={"*"} element={<Navigate to="/error" state={{status: 404}}/>}/>

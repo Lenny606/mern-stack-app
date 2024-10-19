@@ -1,11 +1,35 @@
 import {Container, VStack, Text} from "@chakra-ui/react";
-import {Link} from "react-router-dom"
-import {SimpleGrid} from '@chakra-ui/react'
-import {useProductStore} from "../../store/product.js";
+import {useQuery} from "@tanstack/react-query";
 import React, {useEffect} from "react";
-import {ProductCard} from "../../components/ProductCard.jsx";
+import ContactForm from "../../components/Form/ContactForm.jsx";
+
+const getRandomString = async () => {
+    const response = await fetch('https://restcountries.com/v3.1/region/europe');
+    // const data = Promise.reject('errr')
+    const data = await response.json()
+    return data
+}
+
 
 export const AboutPage = () => {
+
+    const {
+        data: responseData,
+        error: responseError,
+        isLoading: responseLoading
+    } = useQuery({
+        queryKey: ['randomString'],
+        queryFn: getRandomString,
+    })
+    // console.log(getStringQuery)
+    //
+    if(responseError && !responseLoading) {
+        return (
+            <>
+                <Text color="red.500">An error occurred: {responseError}</Text>
+            </>
+        )
+    }
 
     // const {fetchProducts, products} = useProductStore();
     //
@@ -13,16 +37,12 @@ export const AboutPage = () => {
     //     fetchProducts()
     // }, [fetchProducts]);
 
-    const fakturoid = async () => {
-        const res = await fetch( 'https://app.fakturoid.cz/api/v3/oauth?client_id=66ef4d634e2d123adf22d52ddd88c3abc17c3b90&redirect_uri=https://mern-stack-app-sjj5.onrender.com/&response_type=code');
-        const data = await res.json();
-    }
-
     return (
         <Container
             maxW={"container.xl"}
             py={12}
         >
+            <ContactForm />
             <VStack spacing={9}>
                 <Text fontSize='30' fontWeight='bold'
                       bgGradient={"linear(to-r, cyan.400, blue.500)"}
@@ -30,7 +50,21 @@ export const AboutPage = () => {
                       textAlign={'center'}>
                     About Us
                 </Text>
+                {
+                   responseData && !responseLoading ?
+                        (
+                       <>
+                           {responseData.map(item => (
+                               <div>
+                                   <h5>{item.name.common}</h5>
+                                   <p>{item.region}</p>
+                               </div>
+                           ) )}
 
+                       </>
+                    ) :
+                       <div>Loading ... </div>
+                }
                 {/*<SimpleGrid columns={{*/}
                 {/*    base: 1,*/}
                 {/*    md: 2,*/}
